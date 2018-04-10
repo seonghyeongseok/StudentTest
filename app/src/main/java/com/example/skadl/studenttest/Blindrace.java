@@ -3,6 +3,7 @@ package com.example.skadl.studenttest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +34,9 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.race_main);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         Intent getInfo = getIntent();
 
@@ -108,7 +112,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
         }
         else if(R.id.submit == view.getId()){
 
-
+            submit.setOnClickListener(null);
             //  arg 값이 없을 경우
 
             //  arg 값이 있을 경우
