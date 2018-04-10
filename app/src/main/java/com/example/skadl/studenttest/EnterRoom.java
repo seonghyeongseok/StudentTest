@@ -22,7 +22,7 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
     private Button button;
     private EditText nickname, pinNum;
     private Socket mSocket;
-    private String title;
+    private String title, stdNum;
 
     public EnterRoom() {
         title = "로그인";
@@ -32,7 +32,11 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.find_room);
 
-        setTitle(title);
+        Intent getNum = getIntent();
+        stdNum = getNum.getStringExtra("Student_num");
+
+        setTitle(stdNum);
+
         button = (Button) findViewById(R.id.find);
         button.setOnClickListener(this);
 
@@ -51,8 +55,7 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
     public void onClick(View view) {
 
-        Intent getNum = getIntent();
-        String stdNum = getNum.getStringExtra("Student_num");
+
 
         if (button.getId() == R.id.find) {
 
@@ -66,9 +69,9 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
             Intent intent = new Intent(EnterRoom.this, Blindrace.class);
 
-            intent.putExtra("num", stdNum);
-            intent.putExtra("nickname", nick);
-            intent.putExtra("roomnum", pin);
+            intent.putExtra("Student_num", stdNum);
+            intent.putExtra("Nick_name", nick);
+            intent.putExtra("Room_num", pin);
             startActivity(intent);
 
         }

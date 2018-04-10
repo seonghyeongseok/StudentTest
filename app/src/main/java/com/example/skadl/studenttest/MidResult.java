@@ -36,9 +36,9 @@ public class MidResult extends AppCompatActivity {
         Intent getInfo = getIntent();
 
         test = getInfo.getStringExtra("test");
-        stdNum = getInfo.getStringExtra("num");
-        nick = getInfo.getStringExtra("nickname");
-        roomNum = getInfo.getStringExtra("roomnum");
+        stdNum = getInfo.getStringExtra("Student_num");
+        nick = getInfo.getStringExtra("Nick_name");
+        roomNum = getInfo.getStringExtra("Room_num");
 
         button.setText(test);
 
@@ -61,9 +61,9 @@ public class MidResult extends AppCompatActivity {
                     //String test = arg0[0].toString();
 
                     Intent intent = new Intent(MidResult.this, Blindrace.class);
-                    intent.putExtra("num", stdNum);
-                    intent.putExtra("nickname", nick);
-                    intent.putExtra("roomnum", roomNum);
+                    intent.putExtra("Student_num", stdNum);
+                    intent.putExtra("Nick_name", nick);
+                    intent.putExtra("Room_num", roomNum);
                     startActivity(intent);
 
 

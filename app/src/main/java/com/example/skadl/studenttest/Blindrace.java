@@ -34,16 +34,11 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.race_main);
 
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
         Intent getInfo = getIntent();
 
         stdNum = getInfo.getStringExtra("Student_num");
-        nick = getInfo.getStringExtra("nickname");
-        roomNum = getInfo.getStringExtra("roomnum");
-
-        button.setText(nick);
-        button2.setText(roomNum);
+        nick = getInfo.getStringExtra("Nick_name");
+        roomNum = getInfo.getStringExtra("Room_num");
 
         button = (Button)findViewById(R.id.button);
         button.setOnClickListener(this);
@@ -84,9 +79,9 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
 
                     Intent intent = new Intent(Blindrace.this, MidResult.class);
 
-                    intent.putExtra("num", stdNum);
-                    intent.putExtra("nickname", nick);
-                    intent.putExtra("roomnum", roomNum);
+                    intent.putExtra("Student_num", stdNum);
+                    intent.putExtra("Nick_name", nick);
+                    intent.putExtra("Room_num", roomNum);
                     intent.putExtra("test", arg0[0].toString());
 
                     startActivity(intent);

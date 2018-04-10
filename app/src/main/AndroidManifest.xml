@@ -18,13 +18,15 @@
         <activity android:name=".Main"/>
         <activity android:name=".Join"/>
         <activity android:name=".EnterRoom"/>
-        <activity android:name=".Blindrace"/>
+        <activity android:name=".Blindrace"
+            android:screenOrientation="landscape"/>
         <activity android:name=".GroupMain"/>
         <activity android:name=".GradeRecord"/>
         <activity android:name=".Note"/>
         <activity android:name=".Retest"/>
         <activity android:name=".Feedback"/>
-        <activity android:name=".MidResult"/>
+        <activity android:name=".MidResult"
+            android:screenOrientation="landscape"/>
     </application>
 <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
