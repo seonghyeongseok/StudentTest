@@ -52,7 +52,7 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
     public void onClick(View view) {
 
         Intent getNum = getIntent();
-        String stdNum = getNum.getExtras().getString("Student_num");
+        String stdNum = getNum.getStringExtra("Student_num");
 
         if (button.getId() == R.id.find) {
 
@@ -68,6 +68,7 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
             intent.putExtra("num", stdNum);
             intent.putExtra("nickname", nick);
+            intent.putExtra("roomnum", pin);
             startActivity(intent);
 
         }

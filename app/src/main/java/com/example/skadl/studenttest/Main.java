@@ -42,7 +42,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
 
         Intent intent;
         Intent getNum = getIntent();
-        String stdNum = getNum.getExtras().getString("Student_num");
+        String stdNum = getNum.getStringExtra("Student_num");
 
         if(view.getId() == R.id.admission){
             //  방 입장

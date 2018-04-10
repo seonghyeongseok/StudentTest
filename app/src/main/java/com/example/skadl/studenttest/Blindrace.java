@@ -1,6 +1,7 @@
 package com.example.skadl.studenttest;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -26,11 +27,23 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
     private Socket mSocket;
     private Button button, button2, button3, button4, submit;
     private String arg = "";
+    private String stdNum, nick, roomNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.race_main);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        Intent getInfo = getIntent();
+
+        stdNum = getInfo.getStringExtra("Student_num");
+        nick = getInfo.getStringExtra("nickname");
+        roomNum = getInfo.getStringExtra("roomnum");
+
+        button.setText(nick);
+        button2.setText(roomNum);
 
         button = (Button)findViewById(R.id.button);
         button.setOnClickListener(this);
@@ -68,15 +81,12 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
                 @Override
                 public void run() {
 
-                    Intent getInfo = getIntent();
-
-                    String stdNum = getInfo.getExtras().getString("Student_num");
-                    String nick = getInfo.getExtras().getString("nickname");
 
                     Intent intent = new Intent(Blindrace.this, MidResult.class);
 
                     intent.putExtra("num", stdNum);
                     intent.putExtra("nickname", nick);
+                    intent.putExtra("roomnum", roomNum);
                     intent.putExtra("test", arg0[0].toString());
 
                     startActivity(intent);
@@ -114,7 +124,13 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
                 e.printStackTrace();
             }
 
-            mSocket.emit("answer", arg, 1, "bulldozer");
+            mSocket.emit("answer", arg, stdNum, nick);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSocket.emit("leaveRoom",roomNum,stdNum);
     }
 }

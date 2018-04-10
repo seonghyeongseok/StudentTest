@@ -25,6 +25,7 @@ public class MidResult extends AppCompatActivity {
     private Socket mSocket;
     public static final String ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
     private Button button;
+    private String test, stdNum, nick, roomNum;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,9 +33,14 @@ public class MidResult extends AppCompatActivity {
 
         button = (Button)findViewById(R.id.button5);
 
-        Intent intent = getIntent();
+        Intent getInfo = getIntent();
 
-        button.setText(intent.getStringExtra("test"));
+        test = getInfo.getStringExtra("test");
+        stdNum = getInfo.getStringExtra("num");
+        nick = getInfo.getStringExtra("nickname");
+        roomNum = getInfo.getStringExtra("roomnum");
+
+        button.setText(test);
 
         try {
             mSocket = IO.socket(ServerIP);
@@ -54,13 +60,10 @@ public class MidResult extends AppCompatActivity {
                 public void run() {
                     //String test = arg0[0].toString();
 
-                    Intent getInfo = getIntent();
-                    String stdNum = getInfo.getExtras().getString("Student_num");
-                    String nick = getInfo.getExtras().getString("nickname");
-
                     Intent intent = new Intent(MidResult.this, Blindrace.class);
                     intent.putExtra("num", stdNum);
                     intent.putExtra("nickname", nick);
+                    intent.putExtra("roomnum", roomNum);
                     startActivity(intent);
 
 
