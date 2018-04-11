@@ -49,12 +49,30 @@ public class MidResult extends AppCompatActivity {
         try {
             mSocket = IO.socket(ServerIP);
             mSocket.on("android_nextquiz", nextQuiz);
+            mSocket.on("race_ending", raceEnding);
             mSocket.connect();
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
+
+    private Emitter.Listener raceEnding = new Emitter.Listener() {
+        @Override
+        public void call(final Object... arg0) {
+            MidResult.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //String test = arg0[0].toString();
+
+                    Intent intent = new Intent(MidResult.this, EnterRoom.class);
+                    intent.putExtra("Student_num", stdNum);
+                    startActivity(intent);
+
+                }
+            });
+        }
+    };
 
     private Emitter.Listener nextQuiz = new Emitter.Listener() {
         @Override
