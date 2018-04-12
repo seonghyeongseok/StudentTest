@@ -26,7 +26,7 @@ public class MidResult extends AppCompatActivity {
     private Socket mSocket;
     public static final String ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
     private Button button;
-    private String point, stdNum, nick, roomNum, rank;
+    private String test, stdNum, nick, roomNum, beforeRank, afterRank, point;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,13 +39,36 @@ public class MidResult extends AppCompatActivity {
 
         Intent getInfo = getIntent();
 
-        point = getInfo.getStringExtra("Point");
         stdNum = getInfo.getStringExtra("Student_num");
         nick = getInfo.getStringExtra("Nick_name");
         roomNum = getInfo.getStringExtra("Room_num");
-        rank = getInfo.getStringExtra("Rank");
+        test = getInfo.getStringExtra("test");
+        beforeRank = getInfo.getStringExtra("rank");
 
-        button.setText(point+"점"+rank+"등");
+        try {
+            JSONArray array = new JSONArray(test);
+
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.getJSONObject(i);
+
+                String temp = obj.optString("user_num");
+
+                if (stdNum.equals(temp)) {
+                    point = obj.optString("point");
+                    afterRank = String.valueOf(i+1);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //int aRank = Integer.parseInt(afterRank);
+        //int bRank = Integer.parseInt(beforeRank);
+        //int rank = Integer.parseInt(afterRank) - Integer.parseInt(beforeRank);
+        //String result = point + "점, " + afterRank + "등, " + String.valueOf(rank) + "등";
+
+        button.setText(afterRank+","+beforeRank);
+
 
         try {
             mSocket = IO.socket(ServerIP);
@@ -57,23 +80,6 @@ public class MidResult extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-    private Emitter.Listener raceEnding = new Emitter.Listener() {
-        @Override
-        public void call(final Object... arg0) {
-            MidResult.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    //String test = arg0[0].toString();
-
-                    Intent intent = new Intent(MidResult.this, EnterRoom.class);
-                    intent.putExtra("Student_num", stdNum);
-                    startActivity(intent);
-
-                }
-            });
-        }
-    };
 
     private Emitter.Listener nextQuiz = new Emitter.Listener() {
         @Override
@@ -87,34 +93,26 @@ public class MidResult extends AppCompatActivity {
                     intent.putExtra("Student_num", stdNum);
                     intent.putExtra("Nick_name", nick);
                     intent.putExtra("Room_num", roomNum);
+                    intent.putExtra("Rank", afterRank);
                     startActivity(intent);
 
+                }
+            });
+        }
+    };
 
-                    //button.setText();
-                   /* try {
-                        JSONArray jsonArray = new JSONArray(s);
-                        for (int i = 0; i < jsonArray.length(); i++){
-                            JSONObject registered = jsonArray.getJSONObject(i);
+    private Emitter.Listener raceEnding = new Emitter.Listener() {
+        @Override
+        public void call(final Object... arg0) {
+            MidResult.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //String test = arg0[0].toString();
 
+                    Intent intent = new Intent(MidResult.this, EnterRoom.class);
+                    intent.putExtra("Student_num", stdNum);
+                    startActivity(intent);
 
-                            String registered_id = registered.getString("user_id");
-                            String registered_pw = registered.getString("user_password");
-
-                            if(registered_id.equals(ID) && registered_pw.equals(PW)){
-                                Student_num = registered.getString("user_num");
-
-                                Intent intent = new Intent(login.this, Character_select.class);
-                                intent.putExtra("Student_num",Student_num);
-                                startActivity(intent);
-                            }
-
-                        }
-//                                textView.setText(result);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e("JSONEXCEPTION", "JSONEXCEPTION");
-                    }
-*/
                 }
             });
         }

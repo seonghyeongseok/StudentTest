@@ -85,12 +85,14 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
             mSocket.emit("join", pin);
             mSocket.emit("user_in", pin, nick, stdNum, character);
+            mSocket.emit("answer", "0", stdNum, nick);
 
             Intent intent = new Intent(EnterRoom.this, Blindrace.class);
 
             intent.putExtra("Student_num", stdNum);
             intent.putExtra("Nick_name", nick);
             intent.putExtra("Room_num", pin);
+            intent.putExtra("rank", "0");
             startActivity(intent);
 
         }else if(view.getId() == R.id.char1){
