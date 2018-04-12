@@ -26,7 +26,7 @@ public class MidResult extends AppCompatActivity {
     private Socket mSocket;
     public static final String ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
     private Button button;
-    private String test, stdNum, nick, roomNum;
+    private String point, stdNum, nick, roomNum, rank;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,12 +39,13 @@ public class MidResult extends AppCompatActivity {
 
         Intent getInfo = getIntent();
 
-        test = getInfo.getStringExtra("test");
+        point = getInfo.getStringExtra("Point");
         stdNum = getInfo.getStringExtra("Student_num");
         nick = getInfo.getStringExtra("Nick_name");
         roomNum = getInfo.getStringExtra("Room_num");
+        rank = getInfo.getStringExtra("Rank");
 
-        button.setText(test);
+        button.setText(point+"점"+rank+"등");
 
         try {
             mSocket = IO.socket(ServerIP);

@@ -121,7 +121,6 @@ public class Login extends AppCompatActivity {
                         protected void onPostExecute(String s) {
                             super.onPostExecute(s);
 
-
                             String Student_num = "";
                             try {
                                 JSONArray jsonArray = new JSONArray(s);
