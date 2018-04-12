@@ -27,6 +27,7 @@
         <activity android:name=".Feedback"/>
         <activity android:name=".MidResult"
             android:screenOrientation="landscape"/>
+        <activity android:name=".FinalResult"/>
     </application>
 <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

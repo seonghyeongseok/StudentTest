@@ -79,7 +79,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
                     intent.putExtra("Nick_name", nick);
                     intent.putExtra("Room_num", roomNum);
                     intent.putExtra("rank", rank);
-                    intent.putExtra("test", arg0[0].toString());
+                    intent.putExtra("ResultInfo", arg0[0].toString());
 
                     startActivity(intent);
 
