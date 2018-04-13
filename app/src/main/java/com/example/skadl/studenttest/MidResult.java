@@ -26,7 +26,6 @@ public class MidResult extends AppCompatActivity {
     private Socket mSocket;
     public static final String ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
     private Button button;
-    String rank[][];
     private String resultInfo, stdNum, nick, roomNum, beforeRank, afterRank, point;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +68,7 @@ public class MidResult extends AppCompatActivity {
 
         int aRank = Integer.parseInt(afterRank);
         int bRank = Integer.parseInt(beforeRank);
-        int test = bRank-aRank;
+        int test = aRank-bRank;
 
         button.setText(afterRank+","+test+"상승");
 

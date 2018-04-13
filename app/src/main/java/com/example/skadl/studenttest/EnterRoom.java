@@ -22,7 +22,7 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
     private Button button;
     private EditText nickname, pinNum;
-    private ImageButton char1, char2, char3, char4, char5;
+    private ImageButton char1, char2, char3, char4, char5, char6, char7, char8, char9;
     private Socket mSocket;
     private String title, stdNum, character;
 
@@ -60,6 +60,18 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
         char5 = (ImageButton)findViewById(R.id.char5);
         char5.setOnClickListener(this);
 
+        char6 = (ImageButton)findViewById(R.id.char6);
+        char6.setOnClickListener(this);
+
+        char7 = (ImageButton)findViewById(R.id.char7);
+        char7.setOnClickListener(this);
+
+        char8 = (ImageButton)findViewById(R.id.char8);
+        char8.setOnClickListener(this);
+
+        char9 = (ImageButton)findViewById(R.id.char9);
+        char9.setOnClickListener(this);
+
         try {
             mSocket = IO.socket("http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890");
             mSocket.connect();
@@ -72,7 +84,7 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
     public void onClick(View view) {
 
-        if (view.getId() == R.id.find) {
+        /*if (view.getId() == R.id.find) {
 
             //  공백 등 예외처리
 
@@ -115,6 +127,66 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
             character = "5";
 
+        }*/
+
+        switch (view.getId()){
+
+            case R.id.find:
+                if(character == null){
+                    return;
+                }
+
+                String nick = nickname.getText().toString();
+                String pin = pinNum.getText().toString();
+
+                mSocket.emit("join", pin);
+                mSocket.emit("user_in", pin, nick, stdNum, character);
+                mSocket.emit("answer", "0", stdNum, nick);
+
+                Intent intent = new Intent(EnterRoom.this, Blindrace.class);
+
+                intent.putExtra("Student_num", stdNum);
+                intent.putExtra("Nick_name", nick);
+                intent.putExtra("Room_num", pin);
+                intent.putExtra("rank", "0");
+                startActivity(intent);
+                break;
+
+            case R.id.char1:
+                character = "1";
+                break;
+
+            case R.id.char2:
+                character = "2";
+                break;
+
+            case R.id.char3:
+                character = "3";
+                break;
+
+            case R.id.char4:
+                character = "4";
+                break;
+
+            case R.id.char5:
+                character = "5";
+                break;
+
+            case R.id.char6:
+                character = "6";
+                break;
+
+            case R.id.char7:
+                character = "7";
+                break;
+
+            case R.id.char8:
+                character = "8";
+                break;
+
+            case R.id.char9:
+                character = "9";
+                break;
         }
     }
     //  방 번호 체크

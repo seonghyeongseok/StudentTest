@@ -129,6 +129,34 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/char5" />
+
+                <ImageButton
+                    android:id="@+id/char6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/char6" />
+
+                <ImageButton
+                    android:id="@+id/char7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/char7" />
+
+                <ImageButton
+                    android:id="@+id/char8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/char8" />
+
+                <ImageButton
+                    android:id="@+id/char9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/char9" />
             </LinearLayout>
         </HorizontalScrollView>
 

@@ -65,7 +65,6 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
             e.printStackTrace();
         }
     }
-
     private Emitter.Listener midresult = new Emitter.Listener() {
         @Override
         public void call(final Object... arg0) {
@@ -82,6 +81,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
                     intent.putExtra("ResultInfo", arg0[0].toString());
 
                     startActivity(intent);
+
 
                 }
             });
