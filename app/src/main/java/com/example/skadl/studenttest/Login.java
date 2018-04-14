@@ -1,11 +1,11 @@
 package com.example.skadl.studenttest;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,6 +28,12 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
+import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
@@ -35,9 +41,27 @@ import java.net.URL;
  */
 
 public class Login extends AppCompatActivity {
+
     private EditText w_ID, w_PW;
     private Button login, join;
     private TextView textView;
+    private Socket mSocket;
+    private String test = "안넘어옴";
+    boolean check = true;
+
+    private Emitter.Listener errorMsg = new Emitter.Listener() {
+        @Override
+        public void call(final Object... arg0) {
+            Login.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    test = (String) arg0[0];
+                    check = false;
+                    Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +74,23 @@ public class Login extends AppCompatActivity {
         w_PW = (EditText) findViewById(R.id.password);
         login = (Button) findViewById(R.id.login);
 
-
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
+        try {
+            mSocket = IO.socket("http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890");
+            mSocket.connect();
+            mSocket.on("err_msg", errorMsg);
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
         login.setOnClickListener(new View.OnClickListener() {
+
+            @SuppressLint("StaticFieldLeak")
             @Override
             public void onClick(View v) {
+
                 final String ID = w_ID.getText().toString();
                 final String PW = w_PW.getText().toString();
 
@@ -66,9 +100,6 @@ public class Login extends AppCompatActivity {
                         @Override
                         protected void onProgressUpdate(Integer... values) {
                             super.onProgressUpdate(values);
-
-                            if (values.length > 0)
-                                Log.i("http", String.valueOf(values[0]));
                         }
 
                         @Override
@@ -122,25 +153,39 @@ public class Login extends AppCompatActivity {
                             super.onPostExecute(s);
 
                             String Student_num = "";
+
                             try {
                                 JSONArray jsonArray = new JSONArray(s);
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject registered = jsonArray.getJSONObject(i);
 
+                                for (int i = 0; i < jsonArray.length(); i++) {
+
+                                    JSONObject registered = jsonArray.getJSONObject(i);
 
                                     String registered_id = registered.getString("user_id");
                                     String registered_pw = registered.getString("user_password");
 
-                                    if (registered_id.equals(ID) && registered_pw.equals(PW)) {
-                                        Student_num = registered.getString("user_num");
+                                        if (registered_id.equals(ID) && registered_pw.equals(PW)) {
+                                            Student_num = registered.getString("user_num");
 
-                                        Intent intent = new Intent(Login.this, Main.class);
+                                        if(check == false){
+                                            login.setText("씨벌");
+
+                                        }else{
+                                            login.setText("슈벌");
+                                        }
+
+
+                                        mSocket.emit("checkedLogin", Student_num);
+
+
+
+                                        /*Intent intent = new Intent(Login.this, Main.class);
                                         intent.putExtra("Student_num", Student_num);
-                                        startActivity(intent);
+                                        startActivity(intent);*/
+
                                     }
 
                                 }
-//                                textView.setText(result);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 Log.e("JSONEXCEPTION", "JSONEXCEPTION");
@@ -167,7 +212,15 @@ public class Login extends AppCompatActivity {
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
                 }
+
+                
             }
         });
+
     }
+    public void Login_check(){
+
+    }
+
+
 }

@@ -26,6 +26,7 @@
         <activity android:name=".Feedback"/>
         <activity android:name=".MidResult"/>
         <activity android:name=".FinalResult"/>
+        <activity android:name=".WaitingRoom"/>
     </application>
 <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

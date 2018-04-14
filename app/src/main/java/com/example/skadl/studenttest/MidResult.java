@@ -59,6 +59,7 @@ public class MidResult extends AppCompatActivity {
                 if (stdNum.equals(temp)) {
                     point = obj.optString("point");
                     afterRank = String.valueOf(i+1);
+                    //point = String.valueOf(Integer.parseInt(point) * 100);
                 }
             }
 

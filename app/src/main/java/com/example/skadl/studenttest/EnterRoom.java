@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -25,6 +26,7 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
     private ImageButton char1, char2, char3, char4, char5, char6, char7, char8, char9;
     private Socket mSocket;
     private String title, stdNum, character;
+    private boolean check;
 
     public EnterRoom() {
         title = "로그인";
@@ -45,35 +47,36 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
         nickname = (EditText) findViewById(R.id.nickname);
         pinNum = (EditText) findViewById(R.id.pinnum);
 
-        char1 = (ImageButton)findViewById(R.id.char1);
+        char1 = (ImageButton) findViewById(R.id.char1);
         char1.setOnClickListener(this);
 
-        char2 = (ImageButton)findViewById(R.id.char2);
+        char2 = (ImageButton) findViewById(R.id.char2);
         char2.setOnClickListener(this);
 
-        char3 = (ImageButton)findViewById(R.id.char3);
+        char3 = (ImageButton) findViewById(R.id.char3);
         char3.setOnClickListener(this);
 
-        char4 = (ImageButton)findViewById(R.id.char4);
+        char4 = (ImageButton) findViewById(R.id.char4);
         char4.setOnClickListener(this);
 
-        char5 = (ImageButton)findViewById(R.id.char5);
+        char5 = (ImageButton) findViewById(R.id.char5);
         char5.setOnClickListener(this);
 
-        char6 = (ImageButton)findViewById(R.id.char6);
+        char6 = (ImageButton) findViewById(R.id.char6);
         char6.setOnClickListener(this);
 
-        char7 = (ImageButton)findViewById(R.id.char7);
+        char7 = (ImageButton) findViewById(R.id.char7);
         char7.setOnClickListener(this);
 
-        char8 = (ImageButton)findViewById(R.id.char8);
+        char8 = (ImageButton) findViewById(R.id.char8);
         char8.setOnClickListener(this);
 
-        char9 = (ImageButton)findViewById(R.id.char9);
+        char9 = (ImageButton) findViewById(R.id.char9);
         char9.setOnClickListener(this);
 
         try {
             mSocket = IO.socket("http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890");
+
             mSocket.connect();
 
 
@@ -82,109 +85,104 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
         }
     }
 
+    private Emitter.Listener errorMsg = new Emitter.Listener() {
+        @Override
+        public void call(final Object... arg0) {
+            EnterRoom.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), arg0[0].toString(), Toast.LENGTH_LONG).show();
+                    check = false;
+                }
+            });
+        }
+    };
+
     public void onClick(View view) {
 
-        /*if (view.getId() == R.id.find) {
-
-            //  공백 등 예외처리
-
-            if(character == null){
-                return;
-            }
-
-            String nick = nickname.getText().toString();
-            String pin = pinNum.getText().toString();
-
-            mSocket.emit("join", pin);
-            mSocket.emit("user_in", pin, nick, stdNum, character);
-            mSocket.emit("answer", "0", stdNum, nick);
-
-            Intent intent = new Intent(EnterRoom.this, Blindrace.class);
-
-            intent.putExtra("Student_num", stdNum);
-            intent.putExtra("Nick_name", nick);
-            intent.putExtra("Room_num", pin);
-            intent.putExtra("rank", "0");
-            startActivity(intent);
-
-        }else if(view.getId() == R.id.char1){
-
-            character = "1";
-
-        }else if(view.getId() == R.id.char2){
-
-            character = "2";
-
-        }else if(view.getId() == R.id.char3){
-
-            character = "3";
-
-        }else if(view.getId() == R.id.char4){
-
-            character = "4";
-
-        }else if(view.getId() == R.id.char5){
-
-            character = "5";
-
-        }*/
-
-        switch (view.getId()){
+        switch (view.getId()) {
 
             case R.id.find:
-                if(character == null){
+
+                check = true;
+
+                if (character == null) {
                     return;
                 }
+
 
                 String nick = nickname.getText().toString();
                 String pin = pinNum.getText().toString();
 
                 mSocket.emit("join", pin);
                 mSocket.emit("user_in", pin, nick, stdNum, character);
+                mSocket.on("err_msg", errorMsg);
+
+                if(check == false){
+                    return;
+                }
+
                 mSocket.emit("answer", "0", stdNum, nick);
 
-                Intent intent = new Intent(EnterRoom.this, Blindrace.class);
+                Intent intent = new Intent(EnterRoom.this, WaitingRoom.class);
 
                 intent.putExtra("Student_num", stdNum);
                 intent.putExtra("Nick_name", nick);
                 intent.putExtra("Room_num", pin);
-                intent.putExtra("rank", "0");
+                intent.putExtra("char", character);
                 startActivity(intent);
                 break;
 
             case R.id.char1:
+                char1.setBackgroundColor(111111);
+                char2.setBackgroundColor(999999);
+                char3.setBackgroundColor(999999);
+                char4.setBackgroundColor(999999);
+                char5.setBackgroundColor(999999);
+                char6.setBackgroundColor(999999);
+                char7.setBackgroundColor(999999);
+                char8.setBackgroundColor(999999);
+                char9.setBackgroundColor(999999);
                 character = "1";
                 break;
 
             case R.id.char2:
+                char2.setBackgroundColor(111111);
                 character = "2";
                 break;
 
             case R.id.char3:
+                char3.setBackgroundColor(111111);
                 character = "3";
                 break;
 
             case R.id.char4:
+                char4.setBackgroundColor(111111);
                 character = "4";
                 break;
 
             case R.id.char5:
+                char5.setBackgroundColor(111111);
                 character = "5";
                 break;
 
             case R.id.char6:
+                char6.setBackgroundColor(111111);
                 character = "6";
                 break;
 
             case R.id.char7:
+                char7.setBackgroundColor(111111);
                 character = "7";
                 break;
 
             case R.id.char8:
+                char8.setBackgroundColor(111111);
                 character = "8";
                 break;
 
             case R.id.char9:
+                char9.setBackgroundColor(111111);
                 character = "9";
                 break;
         }

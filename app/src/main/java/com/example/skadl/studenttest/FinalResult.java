@@ -25,7 +25,6 @@ public class FinalResult extends AppCompatActivity{
         stdNum = getInfo.getStringExtra("Student_num");
         point = getInfo.getStringExtra("point");
         rank = getInfo.getStringExtra("rank");
-        
 
         Log.d("rank", rank);
         button = (Button)findViewById(R.id.button6);
