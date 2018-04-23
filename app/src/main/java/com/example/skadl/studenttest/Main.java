@@ -14,7 +14,7 @@ import android.widget.ImageButton;
 public class Main extends AppCompatActivity implements View.OnClickListener{
 
     private ImageButton admission, myGroup, record, feedback;
-    private String title, stdNum;
+    private String title, stdNum, stdName;
 
     public Main(){
         title = "메인";
@@ -29,11 +29,11 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
 
         Intent getInfo = getIntent();
         stdNum = getInfo.getStringExtra("Student_num");
+        stdName = getInfo.getStringExtra("Student_name");
 
         title = stdNum;
 
-        setTitle(title);
-
+        setTitle(stdName);
 
         admission = (ImageButton)findViewById(R.id.admission);
         admission.setOnClickListener(this);

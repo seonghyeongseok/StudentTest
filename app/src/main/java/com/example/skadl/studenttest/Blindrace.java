@@ -1,6 +1,7 @@
 package com.example.skadl.studenttest;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +24,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
     private Socket mSocket;
     private Button button, button2, button3, button4, submit;
     private String arg = "";
-    private String stdNum, nick, roomNum, rank;
+    private String stdNum, nick, roomNum, rank, character;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
 
         Intent getInfo = getIntent();
 
+        character = getInfo.getStringExtra("char");
         stdNum = getInfo.getStringExtra("Student_num");
         nick = getInfo.getStringExtra("Nick_name");
         roomNum = getInfo.getStringExtra("Room_num");
@@ -79,6 +81,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
                     intent.putExtra("Nick_name", nick);
                     intent.putExtra("Room_num", roomNum);
                     intent.putExtra("rank", rank);
+                    intent.putExtra("char", character);
                     intent.putExtra("ResultInfo", arg0[0].toString());
 
                     startActivity(intent);
@@ -94,15 +97,31 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
 
         if(R.id.button == view.getId()){
             arg = "1";
+            button.setBackgroundColor(Color.WHITE);
+            button2.setBackgroundColor(Color.parseColor("#3598db"));
+            button3.setBackgroundColor(Color.parseColor("#f1c40f"));
+            button4.setBackgroundColor(Color.parseColor("#e84c3d"));
         }
         else if(R.id.button2 == view.getId()){
             arg = "2";
+            button2.setBackgroundColor(Color.WHITE);
+            button.setBackgroundColor(Color.parseColor("#1bbc9b"));
+            button3.setBackgroundColor(Color.parseColor("#f1c40f"));
+            button4.setBackgroundColor(Color.parseColor("#e84c3d"));
         }
         else if(R.id.button3 == view.getId()){
             arg = "3";
+            button3.setBackgroundColor(Color.WHITE);
+            button2.setBackgroundColor(Color.parseColor("#3598db"));
+            button.setBackgroundColor(Color.parseColor("#1bbc9b"));
+            button4.setBackgroundColor(Color.parseColor("#e84c3d"));
         }
         else if(R.id.button4 == view.getId()){
             arg = "4";
+            button4.setBackgroundColor(Color.WHITE);
+            button2.setBackgroundColor(Color.parseColor("#3598db"));
+            button3.setBackgroundColor(Color.parseColor("#f1c40f"));
+            button.setBackgroundColor(Color.parseColor("#1bbc9b"));
         }
         else if(R.id.submit == view.getId()){
 

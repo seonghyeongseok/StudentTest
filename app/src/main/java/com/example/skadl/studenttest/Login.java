@@ -2,7 +2,6 @@ package com.example.skadl.studenttest;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,11 +28,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
-
-import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
@@ -42,26 +36,10 @@ import java.net.URL;
 
 public class Login extends AppCompatActivity {
 
-    private EditText w_ID, w_PW;
-    private Button login, join;
-    private TextView textView;
-    private Socket mSocket;
-    private String test = "안넘어옴";
-    boolean check = true;
-
-    private Emitter.Listener errorMsg = new Emitter.Listener() {
-        @Override
-        public void call(final Object... arg0) {
-            Login.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    test = (String) arg0[0];
-                    check = false;
-                    Toast.makeText(getApplicationContext(), test, Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-    };
+    private EditText    w_ID, w_PW;
+    private Button      login;
+    private TextView    textView;
+    private String      test = "안넘어옴";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,20 +48,9 @@ public class Login extends AppCompatActivity {
 
         final Context context = this;
 
-        w_ID = (EditText) findViewById(R.id.userid);
-        w_PW = (EditText) findViewById(R.id.password);
-        login = (Button) findViewById(R.id.login);
-
-        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-
-        try {
-            mSocket = IO.socket("http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890");
-            mSocket.connect();
-            mSocket.on("err_msg", errorMsg);
-
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        w_ID    = (EditText) findViewById(R.id.userid);
+        w_PW    = (EditText) findViewById(R.id.password);
+        login   = (Button) findViewById(R.id.login);
 
         login.setOnClickListener(new View.OnClickListener() {
 
@@ -95,7 +62,7 @@ public class Login extends AppCompatActivity {
                 final String PW = w_PW.getText().toString();
 
                 try {
-                    URL url = new URL("http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890/persons");
+                    URL url = new URL("http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890/phone_login");
                     new AsyncTask<URL, Integer, String>() {
                         @Override
                         protected void onProgressUpdate(Integer... values) {
@@ -108,7 +75,9 @@ public class Login extends AppCompatActivity {
                         }
 
                         protected String doInBackground(URL... params) {
+
                             int i = 0;
+
                             String result = new String();
                             try {
                                 publishProgress(i++);
@@ -122,7 +91,7 @@ public class Login extends AppCompatActivity {
 
                                 OutputStream os = connection.getOutputStream();
                                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-//                                writer.write("id="+ID+"&pw="+PW);
+                                writer.write("p_ID=" + ID + "&p_PW=" + PW + "&" + "");
                                 writer.flush();
 
                                 publishProgress(i++);
@@ -130,7 +99,6 @@ public class Login extends AppCompatActivity {
                                 StringBuilder builder = new StringBuilder();
                                 BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8")); //문자열 셋팅
                                 String line;
-
 
                                 while ((line = reader.readLine()) != null) {
                                     builder.append(line + "\n");
@@ -149,78 +117,45 @@ public class Login extends AppCompatActivity {
                         }
 
                         @Override
-                        protected void onPostExecute(String s) {
-                            super.onPostExecute(s);
+                        protected void onPostExecute(String check) {
+                            super.onPostExecute(check);
 
-                            String Student_num = "";
+                            String  stdName     = null;
+                            int     stdNum      = 0;
+                            boolean checkLogin  = false;
 
                             try {
-                                JSONArray jsonArray = new JSONArray(s);
+                                JSONArray array = new JSONArray(check);
 
-                                for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject obj = array.getJSONObject(0);
 
-                                    JSONObject registered = jsonArray.getJSONObject(i);
+                                checkLogin  = obj.optBoolean("check");
+                                stdName     = obj.optString("userName");
+                                stdNum      = obj.optInt("sessionId");
 
-                                    String registered_id = registered.getString("user_id");
-                                    String registered_pw = registered.getString("user_password");
-
-                                        if (registered_id.equals(ID) && registered_pw.equals(PW)) {
-                                            Student_num = registered.getString("user_num");
-
-                                        if(check == false){
-                                            login.setText("씨벌");
-
-                                        }else{
-                                            login.setText("슈벌");
-                                        }
-
-
-                                        mSocket.emit("checkedLogin", Student_num);
-
-
-
-                                        /*Intent intent = new Intent(Login.this, Main.class);
-                                        intent.putExtra("Student_num", Student_num);
-                                        startActivity(intent);*/
-
-                                    }
-
-                                }
-                            } catch (JSONException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
-                                Log.e("JSONEXCEPTION", "JSONEXCEPTION");
+                            }
+                            //  check, sessionId, userName
+
+                            if(checkLogin){
+                                Intent intent = new Intent(Login.this, Main.class);
+                                intent.putExtra("Student_num", stdNum);
+                                intent.putExtra("Student_name", stdName);
+                                startActivity(intent);
+                            }else{
+                                Toast.makeText(context, "틀렸슴다", Toast.LENGTH_SHORT).show();
                             }
                         }
+                        //  아이디 패스워드 둘다 맞을때
+                        //아닐때
 
                     }.execute(url);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
-                    Log.e("CONNECTION FAIL", "CONNECTION FAIL");
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-                    alertDialogBuilder.setTitle("연결 실패");
-                    alertDialogBuilder
-                            .setMessage("네트워크 연결에 실패했습니다.")
-                            .setCancelable(false)
-                            .setNegativeButton("확인",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(
-                                                DialogInterface dialog, int id) {
-                                            // 다이얼로그를 취소한다
-                                            dialog.cancel();
-                                        }
-                                    });
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
+                    Toast.makeText(context, "인터넷이 연결되어 있지 않습니다.~", Toast.LENGTH_SHORT).show();
                 }
-
-                
             }
         });
-
     }
-    public void Login_check(){
-
-    }
-
-
 }

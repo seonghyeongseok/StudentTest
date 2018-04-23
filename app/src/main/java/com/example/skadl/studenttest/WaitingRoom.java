@@ -31,12 +31,9 @@ public class WaitingRoom extends AppCompatActivity {
             mSocket.on("android_game_start", gameStart);
             mSocket.connect();
 
-
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-
-
     }
 
     private Emitter.Listener gameStart = new Emitter.Listener() {

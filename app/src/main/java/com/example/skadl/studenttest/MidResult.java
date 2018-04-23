@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -23,10 +25,11 @@ import java.net.URISyntaxException;
 
 public class MidResult extends AppCompatActivity {
 
-    private Socket mSocket;
-    public static final String ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
-    private Button button;
-    private String resultInfo, stdNum, nick, roomNum, beforeRank, afterRank, point;
+    private             Socket      mSocket;
+    public static final String      ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
+    private             ImageView   imageView;
+    private             TextView    text1, text2;
+    private             String      resultInfo, stdNum, nick, roomNum, beforeRank, afterRank, point, character;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,31 +38,32 @@ public class MidResult extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        button = (Button)findViewById(R.id.button5);
+        imageView   = (ImageView)findViewById(R.id.character);
+
+        text1       = (TextView) findViewById(R.id.point);
+        text2       = (TextView) findViewById(R.id.rank);
 
         Intent getInfo = getIntent();
 
-        stdNum = getInfo.getStringExtra("Student_num");
-        nick = getInfo.getStringExtra("Nick_name");
-        roomNum = getInfo.getStringExtra("Room_num");
-        resultInfo = getInfo.getStringExtra("ResultInfo");
-        beforeRank = getInfo.getStringExtra("rank");
+        stdNum      = getInfo.getStringExtra("Student_num");
+        nick        = getInfo.getStringExtra("Nick_name");
+        roomNum     = getInfo.getStringExtra("Room_num");
+        resultInfo  = getInfo.getStringExtra("ResultInfo");
+        character   = getInfo.getStringExtra("char");
+        beforeRank  = getInfo.getStringExtra("rank");
 
         try {
             JSONArray array = new JSONArray(resultInfo);
 
             for (int i = 0; i < array.length(); i++) {
+
                 JSONObject obj = array.getJSONObject(i);
 
                 String temp = obj.optString("user_num");
-                /*rank[i][0] = obj.optString("user_num");
-                rank[i][1] = obj.optString("point");
-                rank[i][2] = obj.optString("nickname");*/
 
                 if (stdNum.equals(temp)) {
-                    point = obj.optString("point");
-                    afterRank = String.valueOf(i+1);
-                    //point = String.valueOf(Integer.parseInt(point) * 100);
+                    point       = obj.optString("point");
+                    afterRank   = String.valueOf(i+1);
                 }
             }
 
@@ -67,11 +71,14 @@ public class MidResult extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        int aRank = Integer.parseInt(afterRank);
-        int bRank = Integer.parseInt(beforeRank);
-        int test = aRank-bRank;
+        int aRank   = Integer.parseInt(afterRank);
+        int bRank   = Integer.parseInt(beforeRank);
+        int test    = aRank-bRank;
 
-        button.setText(afterRank+","+test+"상승");
+        imageView.setImageResource(getResources().getIdentifier(
+                "char"+character, "drawable", this.getPackageName()));
+        text1.setText(Integer.parseInt(point) * 100 + "점");
+        text2.setText(afterRank+" 등");
 
         try {
             mSocket = IO.socket(ServerIP);
@@ -97,9 +104,11 @@ public class MidResult extends AppCompatActivity {
                     //String test = arg0[0].toString();
 
                     Intent intent = new Intent(MidResult.this, Blindrace.class);
+
                     intent.putExtra("Student_num", stdNum);
                     intent.putExtra("Nick_name", nick);
                     intent.putExtra("Room_num", roomNum);
+                    intent.putExtra("char", character);
                     intent.putExtra("rank", afterRank);
                     startActivity(intent);
 
@@ -117,9 +126,11 @@ public class MidResult extends AppCompatActivity {
                     //String test = arg0[0].toString();
 
                     Intent intent = new Intent(MidResult.this, FinalResult.class);
+
                     intent.putExtra("Student_num", stdNum);
                     intent.putExtra("Nick_name", nick);
                     intent.putExtra("rank", afterRank);
+                    intent.putExtra("char", character);
                     intent.putExtra("point", point);
                     startActivity(intent);
 
