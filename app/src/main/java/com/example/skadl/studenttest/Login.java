@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -45,6 +46,9 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         final Context context = this;
 
@@ -91,7 +95,7 @@ public class Login extends AppCompatActivity {
 
                                 OutputStream os = connection.getOutputStream();
                                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-                                writer.write("p_ID=" + ID + "&p_PW=" + PW + "&" + "");
+                                writer.write("p_ID=" + ID + "&p_PW=" + PW + "&classification=" + "student");
                                 writer.flush();
 
                                 publishProgress(i++);
@@ -135,6 +139,7 @@ public class Login extends AppCompatActivity {
 
                             } catch (Exception e) {
                                 e.printStackTrace();
+                                return;
                             }
                             //  check, sessionId, userName
 

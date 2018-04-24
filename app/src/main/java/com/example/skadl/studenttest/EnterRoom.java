@@ -3,6 +3,7 @@ package com.example.skadl.studenttest;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +37,9 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.find_room);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         Intent getNum = getIntent();
         stdNum = getNum.getStringExtra("Student_num");
@@ -75,15 +79,15 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
         char9 = (ImageButton) findViewById(R.id.char9);
         char9.setOnClickListener(this);
 
-        char1.setBackgroundColor(Color.GRAY);
-        char2.setBackgroundColor(Color.GRAY);
-        char3.setBackgroundColor(Color.GRAY);
-        char4.setBackgroundColor(Color.GRAY);
-        char5.setBackgroundColor(Color.GRAY);
-        char6.setBackgroundColor(Color.GRAY);
-        char7.setBackgroundColor(Color.GRAY);
-        char8.setBackgroundColor(Color.GRAY);
-        char9.setBackgroundColor(Color.GRAY);
+        char1.setBackgroundColor(Color.BLUE);
+        char2.setBackgroundColor(Color.BLUE);
+        char3.setBackgroundColor(Color.BLUE);
+        char4.setBackgroundColor(Color.BLUE);
+        char5.setBackgroundColor(Color.BLUE);
+        char6.setBackgroundColor(Color.BLUE);
+        char7.setBackgroundColor(Color.BLUE);
+        char8.setBackgroundColor(Color.BLUE);
+        char9.setBackgroundColor(Color.BLUE);
 
         try {
             mSocket = IO.socket("http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890");
@@ -145,119 +149,119 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
                 break;
 
             case R.id.char1:
-                char1.setBackgroundColor(Color.WHITE);
-                char2.setBackgroundColor(Color.GRAY);
-                char3.setBackgroundColor(Color.GRAY);
-                char4.setBackgroundColor(Color.GRAY);
-                char5.setBackgroundColor(Color.GRAY);
-                char6.setBackgroundColor(Color.GRAY);
-                char7.setBackgroundColor(Color.GRAY);
-                char8.setBackgroundColor(Color.GRAY);
-                char9.setBackgroundColor(Color.GRAY);
+                char1.setBackgroundColor(Color.RED);
+                char2.setBackgroundColor(Color.BLUE);
+                char3.setBackgroundColor(Color.BLUE);
+                char4.setBackgroundColor(Color.BLUE);
+                char5.setBackgroundColor(Color.BLUE);
+                char6.setBackgroundColor(Color.BLUE);
+                char7.setBackgroundColor(Color.BLUE);
+                char8.setBackgroundColor(Color.BLUE);
+                char9.setBackgroundColor(Color.BLUE);
                 character = "1";
                 break;
 
             case R.id.char2:
-                char2.setBackgroundColor(Color.WHITE);
-                char1.setBackgroundColor(Color.GRAY);
-                char3.setBackgroundColor(Color.GRAY);
-                char4.setBackgroundColor(Color.GRAY);
-                char5.setBackgroundColor(Color.GRAY);
-                char6.setBackgroundColor(Color.GRAY);
-                char7.setBackgroundColor(Color.GRAY);
-                char8.setBackgroundColor(Color.GRAY);
-                char9.setBackgroundColor(Color.GRAY);
+                char2.setBackgroundColor(Color.RED);
+                char1.setBackgroundColor(Color.BLUE);
+                char3.setBackgroundColor(Color.BLUE);
+                char4.setBackgroundColor(Color.BLUE);
+                char5.setBackgroundColor(Color.BLUE);
+                char6.setBackgroundColor(Color.BLUE);
+                char7.setBackgroundColor(Color.BLUE);
+                char8.setBackgroundColor(Color.BLUE);
+                char9.setBackgroundColor(Color.BLUE);
                 character = "2";
                 break;
 
             case R.id.char3:
-                char3.setBackgroundColor(Color.WHITE);
-                char1.setBackgroundColor(Color.GRAY);
-                char2.setBackgroundColor(Color.GRAY);
-                char4.setBackgroundColor(Color.GRAY);
-                char5.setBackgroundColor(Color.GRAY);
-                char6.setBackgroundColor(Color.GRAY);
-                char7.setBackgroundColor(Color.GRAY);
-                char8.setBackgroundColor(Color.GRAY);
-                char9.setBackgroundColor(Color.GRAY);
+                char3.setBackgroundColor(Color.RED);
+                char1.setBackgroundColor(Color.BLUE);
+                char2.setBackgroundColor(Color.BLUE);
+                char4.setBackgroundColor(Color.BLUE);
+                char5.setBackgroundColor(Color.BLUE);
+                char6.setBackgroundColor(Color.BLUE);
+                char7.setBackgroundColor(Color.BLUE);
+                char8.setBackgroundColor(Color.BLUE);
+                char9.setBackgroundColor(Color.BLUE);
                 character = "3";
                 break;
 
             case R.id.char4:
-                char4.setBackgroundColor(Color.WHITE);
-                char1.setBackgroundColor(Color.GRAY);
-                char2.setBackgroundColor(Color.GRAY);
-                char3.setBackgroundColor(Color.GRAY);
-                char5.setBackgroundColor(Color.GRAY);
-                char6.setBackgroundColor(Color.GRAY);
-                char7.setBackgroundColor(Color.GRAY);
-                char8.setBackgroundColor(Color.GRAY);
-                char9.setBackgroundColor(Color.GRAY);
+                char4.setBackgroundColor(Color.RED);
+                char1.setBackgroundColor(Color.BLUE);
+                char2.setBackgroundColor(Color.BLUE);
+                char3.setBackgroundColor(Color.BLUE);
+                char5.setBackgroundColor(Color.BLUE);
+                char6.setBackgroundColor(Color.BLUE);
+                char7.setBackgroundColor(Color.BLUE);
+                char8.setBackgroundColor(Color.BLUE);
+                char9.setBackgroundColor(Color.BLUE);
                 character = "4";
                 break;
 
             case R.id.char5:
-                char5.setBackgroundColor(Color.WHITE);
-                char1.setBackgroundColor(Color.GRAY);
-                char2.setBackgroundColor(Color.GRAY);
-                char3.setBackgroundColor(Color.GRAY);
-                char4.setBackgroundColor(Color.GRAY);
-                char6.setBackgroundColor(Color.GRAY);
-                char7.setBackgroundColor(Color.GRAY);
-                char8.setBackgroundColor(Color.GRAY);
-                char9.setBackgroundColor(Color.GRAY);
+                char5.setBackgroundColor(Color.RED);
+                char1.setBackgroundColor(Color.BLUE);
+                char2.setBackgroundColor(Color.BLUE);
+                char3.setBackgroundColor(Color.BLUE);
+                char4.setBackgroundColor(Color.BLUE);
+                char6.setBackgroundColor(Color.BLUE);
+                char7.setBackgroundColor(Color.BLUE);
+                char8.setBackgroundColor(Color.BLUE);
+                char9.setBackgroundColor(Color.BLUE);
                 character = "5";
                 break;
 
             case R.id.char6:
-                char6.setBackgroundColor(Color.WHITE);
-                char1.setBackgroundColor(Color.GRAY);
-                char2.setBackgroundColor(Color.GRAY);
-                char3.setBackgroundColor(Color.GRAY);
-                char4.setBackgroundColor(Color.GRAY);
-                char5.setBackgroundColor(Color.GRAY);
-                char7.setBackgroundColor(Color.GRAY);
-                char8.setBackgroundColor(Color.GRAY);
-                char9.setBackgroundColor(Color.GRAY);
+                char6.setBackgroundColor(Color.RED);
+                char1.setBackgroundColor(Color.BLUE);
+                char2.setBackgroundColor(Color.BLUE);
+                char3.setBackgroundColor(Color.BLUE);
+                char4.setBackgroundColor(Color.BLUE);
+                char5.setBackgroundColor(Color.BLUE);
+                char7.setBackgroundColor(Color.BLUE);
+                char8.setBackgroundColor(Color.BLUE);
+                char9.setBackgroundColor(Color.BLUE);
                 character = "6";
                 break;
 
             case R.id.char7:
-                char7.setBackgroundColor(Color.WHITE);
-                char1.setBackgroundColor(Color.GRAY);
-                char2.setBackgroundColor(Color.GRAY);
-                char3.setBackgroundColor(Color.GRAY);
-                char4.setBackgroundColor(Color.GRAY);
-                char5.setBackgroundColor(Color.GRAY);
-                char6.setBackgroundColor(Color.GRAY);
-                char8.setBackgroundColor(Color.GRAY);
-                char9.setBackgroundColor(Color.GRAY);
+                char7.setBackgroundColor(Color.RED);
+                char1.setBackgroundColor(Color.BLUE);
+                char2.setBackgroundColor(Color.BLUE);
+                char3.setBackgroundColor(Color.BLUE);
+                char4.setBackgroundColor(Color.BLUE);
+                char5.setBackgroundColor(Color.BLUE);
+                char6.setBackgroundColor(Color.BLUE);
+                char8.setBackgroundColor(Color.BLUE);
+                char9.setBackgroundColor(Color.BLUE);
                 character = "7";
                 break;
 
             case R.id.char8:
-                char8.setBackgroundColor(Color.WHITE);
-                char1.setBackgroundColor(Color.GRAY);
-                char2.setBackgroundColor(Color.GRAY);
-                char3.setBackgroundColor(Color.GRAY);
-                char4.setBackgroundColor(Color.GRAY);
-                char5.setBackgroundColor(Color.GRAY);
-                char6.setBackgroundColor(Color.GRAY);
-                char7.setBackgroundColor(Color.GRAY);
-                char9.setBackgroundColor(Color.GRAY);
+                char8.setBackgroundColor(Color.RED);
+                char1.setBackgroundColor(Color.BLUE);
+                char2.setBackgroundColor(Color.BLUE);
+                char3.setBackgroundColor(Color.BLUE);
+                char4.setBackgroundColor(Color.BLUE);
+                char5.setBackgroundColor(Color.BLUE);
+                char6.setBackgroundColor(Color.BLUE);
+                char7.setBackgroundColor(Color.BLUE);
+                char9.setBackgroundColor(Color.BLUE);
                 character = "8";
                 break;
 
             case R.id.char9:
-                char9.setBackgroundColor(Color.WHITE);
-                char1.setBackgroundColor(Color.GRAY);
-                char2.setBackgroundColor(Color.GRAY);
-                char3.setBackgroundColor(Color.GRAY);
-                char4.setBackgroundColor(Color.GRAY);
-                char5.setBackgroundColor(Color.GRAY);
-                char6.setBackgroundColor(Color.GRAY);
-                char7.setBackgroundColor(Color.GRAY);
-                char8.setBackgroundColor(Color.GRAY);
+                char9.setBackgroundColor(Color.RED);
+                char1.setBackgroundColor(Color.BLUE);
+                char2.setBackgroundColor(Color.BLUE);
+                char3.setBackgroundColor(Color.BLUE);
+                char4.setBackgroundColor(Color.BLUE);
+                char5.setBackgroundColor(Color.BLUE);
+                char6.setBackgroundColor(Color.BLUE);
+                char7.setBackgroundColor(Color.BLUE);
+                char8.setBackgroundColor(Color.BLUE);
                 character = "9";
                 break;
         }
