@@ -156,7 +156,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:background="@drawable/custom_button"
+                android:background="@drawable/button_normal"
                 android:text="입장"
                 android:textColor="#FFFFFF" />
         </LinearLayout>

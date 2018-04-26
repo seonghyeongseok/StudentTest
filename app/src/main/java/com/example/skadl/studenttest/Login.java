@@ -6,17 +6,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -39,8 +35,6 @@ public class Login extends AppCompatActivity {
 
     private EditText    w_ID, w_PW;
     private Button      login;
-    private TextView    textView;
-    private String      test = "안넘어옴";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +60,7 @@ public class Login extends AppCompatActivity {
                 final String PW = w_PW.getText().toString();
 
                 try {
-                    URL url = new URL("http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890/phone_login");
+                    URL url = new URL("http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com/mobileLogin");
                     new AsyncTask<URL, Integer, String>() {
                         @Override
                         protected void onProgressUpdate(Integer... values) {
@@ -95,7 +89,7 @@ public class Login extends AppCompatActivity {
 
                                 OutputStream os = connection.getOutputStream();
                                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-                                writer.write("p_ID=" + ID + "&p_PW=" + PW + "&classification=" + "student");
+                                writer.write("p_ID=" + ID + "&p_PW=" + PW);
                                 writer.flush();
 
                                 publishProgress(i++);
@@ -125,17 +119,17 @@ public class Login extends AppCompatActivity {
                             super.onPostExecute(check);
 
                             String  stdName     = null;
-                            int     stdNum      = 0;
+                            String  stdNum      = null;
                             boolean checkLogin  = false;
 
                             try {
-                                JSONArray array = new JSONArray(check);
+                                //JSONArray array = new JSONArray(check);
 
-                                JSONObject obj = array.getJSONObject(0);
+                                JSONObject obj = new JSONObject(check);
 
                                 checkLogin  = obj.optBoolean("check");
                                 stdName     = obj.optString("userName");
-                                stdNum      = obj.optInt("sessionId");
+                                stdNum      = obj.optString("sessionId");
 
                             } catch (Exception e) {
                                 e.printStackTrace();

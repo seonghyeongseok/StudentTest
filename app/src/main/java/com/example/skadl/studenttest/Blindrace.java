@@ -21,6 +21,7 @@ import java.net.URISyntaxException;
 public class Blindrace extends AppCompatActivity implements View.OnClickListener{
 
     public static final String ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
+
     private Socket mSocket;
     private Button button, button2, button3, button4, submit;
     private String arg = "";

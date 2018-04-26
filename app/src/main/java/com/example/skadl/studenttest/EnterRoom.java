@@ -23,12 +23,13 @@ import java.net.URISyntaxException;
 
 public class EnterRoom extends AppCompatActivity implements View.OnClickListener {
 
-    private Button button;
-    private EditText nickname, pinNum;
-    private ImageButton char1, char2, char3, char4, char5, char6, char7, char8, char9;
-    private Socket mSocket;
-    private String title, stdNum, character;
-    private boolean check;
+    private Button      button;
+    private EditText    nickname, pinNum;
+    private ImageButton chara[] = new ImageButton[9];
+    private Socket      mSocket;
+    private String      title, stdNum, character;
+    private boolean     check;
+    private int id[] = new int[9];
 
     public EnterRoom() {
         title = "로그인";
@@ -52,42 +53,14 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
         nickname = (EditText) findViewById(R.id.nickname);
         pinNum = (EditText) findViewById(R.id.pinnum);
 
-        char1 = (ImageButton) findViewById(R.id.char1);
-        char1.setOnClickListener(this);
+        for (int i = 0; i < chara.length; i++) {
+            String resId = "char" + String.valueOf(i + 1);
+            id[i] = getResources().getIdentifier(resId, "id", getPackageName());
 
-        char2 = (ImageButton) findViewById(R.id.char2);
-        char2.setOnClickListener(this);
-
-        char3 = (ImageButton) findViewById(R.id.char3);
-        char3.setOnClickListener(this);
-
-        char4 = (ImageButton) findViewById(R.id.char4);
-        char4.setOnClickListener(this);
-
-        char5 = (ImageButton) findViewById(R.id.char5);
-        char5.setOnClickListener(this);
-
-        char6 = (ImageButton) findViewById(R.id.char6);
-        char6.setOnClickListener(this);
-
-        char7 = (ImageButton) findViewById(R.id.char7);
-        char7.setOnClickListener(this);
-
-        char8 = (ImageButton) findViewById(R.id.char8);
-        char8.setOnClickListener(this);
-
-        char9 = (ImageButton) findViewById(R.id.char9);
-        char9.setOnClickListener(this);
-
-        char1.setBackgroundColor(Color.BLUE);
-        char2.setBackgroundColor(Color.BLUE);
-        char3.setBackgroundColor(Color.BLUE);
-        char4.setBackgroundColor(Color.BLUE);
-        char5.setBackgroundColor(Color.BLUE);
-        char6.setBackgroundColor(Color.BLUE);
-        char7.setBackgroundColor(Color.BLUE);
-        char8.setBackgroundColor(Color.BLUE);
-        char9.setBackgroundColor(Color.BLUE);
+            chara[i] = (ImageButton) findViewById(id[i]);
+            chara[i].setOnClickListener(this);
+            chara[i].setBackgroundColor(Color.BLUE);
+        }
 
         try {
             mSocket = IO.socket("http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890");
@@ -149,119 +122,92 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
                 break;
 
             case R.id.char1:
-                char1.setBackgroundColor(Color.RED);
-                char2.setBackgroundColor(Color.BLUE);
-                char3.setBackgroundColor(Color.BLUE);
-                char4.setBackgroundColor(Color.BLUE);
-                char5.setBackgroundColor(Color.BLUE);
-                char6.setBackgroundColor(Color.BLUE);
-                char7.setBackgroundColor(Color.BLUE);
-                char8.setBackgroundColor(Color.BLUE);
-                char9.setBackgroundColor(Color.BLUE);
+
+                for (int i = 0; i < chara.length; i++) {
+                    chara[i].setBackgroundColor(Color.BLUE);
+                }
+                chara[0].setBackgroundColor(Color.RED);
+
                 character = "1";
                 break;
 
             case R.id.char2:
-                char2.setBackgroundColor(Color.RED);
-                char1.setBackgroundColor(Color.BLUE);
-                char3.setBackgroundColor(Color.BLUE);
-                char4.setBackgroundColor(Color.BLUE);
-                char5.setBackgroundColor(Color.BLUE);
-                char6.setBackgroundColor(Color.BLUE);
-                char7.setBackgroundColor(Color.BLUE);
-                char8.setBackgroundColor(Color.BLUE);
-                char9.setBackgroundColor(Color.BLUE);
+
+                for (int i = 0; i < chara.length; i++) {
+                    chara[i].setBackgroundColor(Color.BLUE);
+                }
+                chara[1].setBackgroundColor(Color.RED);
+
                 character = "2";
                 break;
 
             case R.id.char3:
-                char3.setBackgroundColor(Color.RED);
-                char1.setBackgroundColor(Color.BLUE);
-                char2.setBackgroundColor(Color.BLUE);
-                char4.setBackgroundColor(Color.BLUE);
-                char5.setBackgroundColor(Color.BLUE);
-                char6.setBackgroundColor(Color.BLUE);
-                char7.setBackgroundColor(Color.BLUE);
-                char8.setBackgroundColor(Color.BLUE);
-                char9.setBackgroundColor(Color.BLUE);
+
+                for (int i = 0; i < chara.length; i++) {
+                    chara[i].setBackgroundColor(Color.BLUE);
+                }
+                chara[2].setBackgroundColor(Color.RED);
+
                 character = "3";
                 break;
 
             case R.id.char4:
-                char4.setBackgroundColor(Color.RED);
-                char1.setBackgroundColor(Color.BLUE);
-                char2.setBackgroundColor(Color.BLUE);
-                char3.setBackgroundColor(Color.BLUE);
-                char5.setBackgroundColor(Color.BLUE);
-                char6.setBackgroundColor(Color.BLUE);
-                char7.setBackgroundColor(Color.BLUE);
-                char8.setBackgroundColor(Color.BLUE);
-                char9.setBackgroundColor(Color.BLUE);
+
+                for (int i = 0; i < chara.length; i++) {
+                    chara[i].setBackgroundColor(Color.BLUE);
+                }
+                chara[3].setBackgroundColor(Color.RED);
+
                 character = "4";
                 break;
 
             case R.id.char5:
-                char5.setBackgroundColor(Color.RED);
-                char1.setBackgroundColor(Color.BLUE);
-                char2.setBackgroundColor(Color.BLUE);
-                char3.setBackgroundColor(Color.BLUE);
-                char4.setBackgroundColor(Color.BLUE);
-                char6.setBackgroundColor(Color.BLUE);
-                char7.setBackgroundColor(Color.BLUE);
-                char8.setBackgroundColor(Color.BLUE);
-                char9.setBackgroundColor(Color.BLUE);
+
+                for (int i = 0; i < chara.length; i++) {
+                    chara[i].setBackgroundColor(Color.BLUE);
+                }
+                chara[4].setBackgroundColor(Color.RED);
+
                 character = "5";
                 break;
 
             case R.id.char6:
-                char6.setBackgroundColor(Color.RED);
-                char1.setBackgroundColor(Color.BLUE);
-                char2.setBackgroundColor(Color.BLUE);
-                char3.setBackgroundColor(Color.BLUE);
-                char4.setBackgroundColor(Color.BLUE);
-                char5.setBackgroundColor(Color.BLUE);
-                char7.setBackgroundColor(Color.BLUE);
-                char8.setBackgroundColor(Color.BLUE);
-                char9.setBackgroundColor(Color.BLUE);
+
+                for (int i = 0; i < chara.length; i++) {
+                    chara[i].setBackgroundColor(Color.BLUE);
+                }
+                chara[5].setBackgroundColor(Color.RED);
+
                 character = "6";
                 break;
 
             case R.id.char7:
-                char7.setBackgroundColor(Color.RED);
-                char1.setBackgroundColor(Color.BLUE);
-                char2.setBackgroundColor(Color.BLUE);
-                char3.setBackgroundColor(Color.BLUE);
-                char4.setBackgroundColor(Color.BLUE);
-                char5.setBackgroundColor(Color.BLUE);
-                char6.setBackgroundColor(Color.BLUE);
-                char8.setBackgroundColor(Color.BLUE);
-                char9.setBackgroundColor(Color.BLUE);
+
+                for (int i = 0; i < chara.length; i++) {
+                    chara[i].setBackgroundColor(Color.BLUE);
+                }
+                chara[6].setBackgroundColor(Color.RED);
+
                 character = "7";
                 break;
 
             case R.id.char8:
-                char8.setBackgroundColor(Color.RED);
-                char1.setBackgroundColor(Color.BLUE);
-                char2.setBackgroundColor(Color.BLUE);
-                char3.setBackgroundColor(Color.BLUE);
-                char4.setBackgroundColor(Color.BLUE);
-                char5.setBackgroundColor(Color.BLUE);
-                char6.setBackgroundColor(Color.BLUE);
-                char7.setBackgroundColor(Color.BLUE);
-                char9.setBackgroundColor(Color.BLUE);
+
+                for (int i = 0; i < chara.length; i++) {
+                    chara[i].setBackgroundColor(Color.BLUE);
+                }
+                chara[7].setBackgroundColor(Color.RED);
+
                 character = "8";
                 break;
 
             case R.id.char9:
-                char9.setBackgroundColor(Color.RED);
-                char1.setBackgroundColor(Color.BLUE);
-                char2.setBackgroundColor(Color.BLUE);
-                char3.setBackgroundColor(Color.BLUE);
-                char4.setBackgroundColor(Color.BLUE);
-                char5.setBackgroundColor(Color.BLUE);
-                char6.setBackgroundColor(Color.BLUE);
-                char7.setBackgroundColor(Color.BLUE);
-                char8.setBackgroundColor(Color.BLUE);
+
+                for (int i = 0; i < chara.length; i++) {
+                    chara[i].setBackgroundColor(Color.BLUE);
+                }
+                chara[8].setBackgroundColor(Color.RED);
+
                 character = "9";
                 break;
         }
