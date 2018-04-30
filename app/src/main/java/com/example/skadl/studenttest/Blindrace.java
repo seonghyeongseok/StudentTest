@@ -137,7 +137,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
                 e.printStackTrace();
             }
 
-            mSocket.emit("answer", arg, stdNum, nick);
+            mSocket.emit("answer",roomNum, arg, stdNum, nick);
         }
     }
 

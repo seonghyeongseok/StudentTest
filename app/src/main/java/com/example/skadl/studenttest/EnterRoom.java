@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -66,21 +67,49 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
             mSocket = IO.socket("http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890");
 
             mSocket.connect();
-
+            mSocket.on("android_enter_room", enter_check);
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
 
-    private Emitter.Listener errorMsg = new Emitter.Listener() {
+    private Emitter.Listener enter_check = new Emitter.Listener() {
         @Override
         public void call(final Object... arg0) {
             EnterRoom.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    //Toast.makeText(getApplicationContext(), arg0[0].toString(), Toast.LENGTH_LONG).show();
-                    check = false;
+
+                    String enter_checking = arg0[1].toString();
+
+                    if( enter_checking.equals("false")){
+                        //닉네임이나 캐릭터에 중복된 정보가 입력되었을 때
+                        if( stdNum.equals(arg0[2].toString()) )
+                            Toast.makeText(getApplicationContext(), "중복된 캐릭터 혹은 닉네임입니다.", Toast.LENGTH_LONG).show();
+
+                    }else{
+                        // 닉네임과 캐릭터가 정상적으로 선택되었을 떄
+
+                        //선택된 캐릭터 비활성화
+                        int selected_chara_num  = Integer.parseInt(enter_checking)-1;
+                        chara[selected_chara_num].setEnabled(false);
+
+
+                        //올바른정보로 신청시 입장요청유저는 방입장
+                        if( stdNum.equals(arg0[2].toString()) ) {
+                            String nick = nickname.getText().toString();
+                            String pin = pinNum.getText().toString();
+                            Toast.makeText(getApplicationContext(), stdNum, Toast.LENGTH_LONG).show();
+                            mSocket.emit("answer", "0", stdNum, nick);
+                            Intent intent = new Intent(EnterRoom.this, WaitingRoom.class);
+                            intent.putExtra("Student_num", stdNum);
+                            intent.putExtra("Nick_name", nick);
+                            intent.putExtra("Room_num", pin);
+                            intent.putExtra("char", character);
+                            startActivity(intent);
+                        }
+                    }
                 }
             });
         }
@@ -104,22 +133,21 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
                 mSocket.emit("join", pin);
                 mSocket.emit("user_in", pin, nick, stdNum, character);
-                mSocket.on("err_msg", errorMsg);
 
-                if(check == false){
-                    return;
-                }
-
-                mSocket.emit("answer", "0", stdNum, nick);
-
-                Intent intent = new Intent(EnterRoom.this, WaitingRoom.class);
-
-                intent.putExtra("Student_num", stdNum);
-                intent.putExtra("Nick_name", nick);
-                intent.putExtra("Room_num", pin);
-                intent.putExtra("char", character);
-                startActivity(intent);
-                break;
+//                Toast.makeText(getApplicationContext(), stdNum, Toast.LENGTH_LONG).show();
+//
+//
+//                mSocket.emit("answer", "0", stdNum, nick);
+//
+//
+//                Intent intent = new Intent(EnterRoom.this, WaitingRoom.class);
+//
+//                intent.putExtra("Student_num", stdNum);
+//                intent.putExtra("Nick_name", nick);
+//                intent.putExtra("Room_num", pin);
+//                intent.putExtra("char", character);
+//                startActivity(intent);
+//                break;
 
             case R.id.char1:
 
