@@ -23,13 +23,14 @@ import java.net.URISyntaxException;
 
 public class EnterRoom extends AppCompatActivity implements View.OnClickListener {
 
+    public static final String ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
+
     private Button      button;
     private EditText    nickname, pinNum;
     private ImageButton chara[] = new ImageButton[9];
     private Socket      mSocket;
-    private String      title, stdNum, character;
-    private boolean     check;
-    private int id[] = new int[9];
+    private String      title, sessionNum, character;
+    private int         id[] = new int[9];
 
     public EnterRoom() {
         title = "로그인";
@@ -43,9 +44,9 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
         actionBar.hide();
 
         Intent getNum = getIntent();
-        stdNum = getNum.getStringExtra("Student_num");
+        sessionNum = getNum.getStringExtra("session_num");
 
-        setTitle(stdNum);
+        setTitle(sessionNum);
 
         button = (Button) findViewById(R.id.find);
         button.setOnClickListener(this);
@@ -53,38 +54,33 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
         nickname = (EditText) findViewById(R.id.nickname);
         pinNum = (EditText) findViewById(R.id.pinnum);
 
-        for (int i = 0; i < chara.length; i++) {
+        for (int i = 0; i < chara.length; i++)
+        {
+
             String resId = "char" + String.valueOf(i + 1);
             id[i] = getResources().getIdentifier(resId, "id", getPackageName());
 
             chara[i] = (ImageButton) findViewById(id[i]);
             chara[i].setOnClickListener(this);
             chara[i].setBackgroundColor(Color.BLUE);
+
         }
 
-        try {
-            mSocket = IO.socket("http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890");
+        try
+        {
+
+            mSocket = IO.socket(ServerIP);
 
             mSocket.connect();
 
+        }
+        catch (URISyntaxException e)
+        {
 
-        } catch (URISyntaxException e) {
             e.printStackTrace();
+
         }
     }
-
-    private Emitter.Listener errorMsg = new Emitter.Listener() {
-        @Override
-        public void call(final Object... arg0) {
-            EnterRoom.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    //Toast.makeText(getApplicationContext(), arg0[0].toString(), Toast.LENGTH_LONG).show();
-                    check = false;
-                }
-            });
-        }
-    };
 
     public void onClick(View view) {
 
@@ -92,29 +88,25 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
             case R.id.find:
 
-                check = true;
+                if (character == null)
+                {
 
-                if (character == null) {
+                    Toast.makeText(getApplicationContext(), "캐릭터 쵸이스 쿠다사이", Toast.LENGTH_SHORT).show();
                     return;
-                }
 
+                }
 
                 String nick = nickname.getText().toString();
                 String pin = pinNum.getText().toString();
 
                 mSocket.emit("join", pin);
-                mSocket.emit("user_in", pin, nick, stdNum, character);
-                mSocket.on("err_msg", errorMsg);
+                mSocket.emit("user_in", pin, nick, sessionNum, character);
 
-                if(check == false){
-                    return;
-                }
-
-                mSocket.emit("answer", "0", stdNum, nick);
+                mSocket.emit("answer", "0", sessionNum, nick);
 
                 Intent intent = new Intent(EnterRoom.this, WaitingRoom.class);
 
-                intent.putExtra("Student_num", stdNum);
+                intent.putExtra("session_num", sessionNum);
                 intent.putExtra("Nick_name", nick);
                 intent.putExtra("Room_num", pin);
                 intent.putExtra("char", character);
@@ -123,9 +115,13 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
             case R.id.char1:
 
-                for (int i = 0; i < chara.length; i++) {
+                for (int i = 0; i < chara.length; i++)
+                {
+
                     chara[i].setBackgroundColor(Color.BLUE);
+
                 }
+
                 chara[0].setBackgroundColor(Color.RED);
 
                 character = "1";
@@ -133,9 +129,13 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
             case R.id.char2:
 
-                for (int i = 0; i < chara.length; i++) {
+                for (int i = 0; i < chara.length; i++)
+                {
+
                     chara[i].setBackgroundColor(Color.BLUE);
+
                 }
+
                 chara[1].setBackgroundColor(Color.RED);
 
                 character = "2";
@@ -143,9 +143,13 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
             case R.id.char3:
 
-                for (int i = 0; i < chara.length; i++) {
+                for (int i = 0; i < chara.length; i++)
+                {
+
                     chara[i].setBackgroundColor(Color.BLUE);
+
                 }
+
                 chara[2].setBackgroundColor(Color.RED);
 
                 character = "3";
@@ -153,9 +157,13 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
             case R.id.char4:
 
-                for (int i = 0; i < chara.length; i++) {
+                for (int i = 0; i < chara.length; i++)
+                {
+
                     chara[i].setBackgroundColor(Color.BLUE);
+
                 }
+
                 chara[3].setBackgroundColor(Color.RED);
 
                 character = "4";
@@ -163,9 +171,13 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
             case R.id.char5:
 
-                for (int i = 0; i < chara.length; i++) {
+                for (int i = 0; i < chara.length; i++)
+                {
+
                     chara[i].setBackgroundColor(Color.BLUE);
+
                 }
+
                 chara[4].setBackgroundColor(Color.RED);
 
                 character = "5";
@@ -173,9 +185,13 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
             case R.id.char6:
 
-                for (int i = 0; i < chara.length; i++) {
+                for (int i = 0; i < chara.length; i++)
+                {
+
                     chara[i].setBackgroundColor(Color.BLUE);
+
                 }
+
                 chara[5].setBackgroundColor(Color.RED);
 
                 character = "6";
@@ -183,9 +199,13 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
             case R.id.char7:
 
-                for (int i = 0; i < chara.length; i++) {
+                for (int i = 0; i < chara.length; i++)
+                {
+
                     chara[i].setBackgroundColor(Color.BLUE);
+
                 }
+
                 chara[6].setBackgroundColor(Color.RED);
 
                 character = "7";
@@ -193,9 +213,13 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
             case R.id.char8:
 
-                for (int i = 0; i < chara.length; i++) {
+                for (int i = 0; i < chara.length; i++)
+                {
+
                     chara[i].setBackgroundColor(Color.BLUE);
+
                 }
+
                 chara[7].setBackgroundColor(Color.RED);
 
                 character = "8";
@@ -203,9 +227,13 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
             case R.id.char9:
 
-                for (int i = 0; i < chara.length; i++) {
+                for (int i = 0; i < chara.length; i++)
+                {
+
                     chara[i].setBackgroundColor(Color.BLUE);
+
                 }
+
                 chara[8].setBackgroundColor(Color.RED);
 
                 character = "9";

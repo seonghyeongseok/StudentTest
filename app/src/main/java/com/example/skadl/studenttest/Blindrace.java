@@ -1,5 +1,6 @@
 package com.example.skadl.studenttest;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -24,8 +26,8 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
 
     private Socket mSocket;
     private Button button, button2, button3, button4, submit;
-    private String arg = "";
-    private String stdNum, nick, roomNum, rank, character;
+    private String answerNum = "";
+    private String sessionNum, nick, roomNum, rank, character;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +39,11 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
 
         Intent getInfo = getIntent();
 
-        character = getInfo.getStringExtra("char");
-        stdNum = getInfo.getStringExtra("Student_num");
-        nick = getInfo.getStringExtra("Nick_name");
-        roomNum = getInfo.getStringExtra("Room_num");
-        rank = getInfo.getStringExtra("rank");
+        character   = getInfo.getStringExtra("char");
+        sessionNum  = getInfo.getStringExtra("session_num");
+        nick        = getInfo.getStringExtra("Nick_name");
+        roomNum     = getInfo.getStringExtra("Room_num");
+        rank        = getInfo.getStringExtra("rank");
 
         button = (Button)findViewById(R.id.button);
         button.setOnClickListener(this);
@@ -58,14 +60,19 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
         submit = (Button)findViewById(R.id.submit);
         submit.setOnClickListener(this);
 
-       try {
-            mSocket = IO.socket("http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890");
+       try
+       {
+
+            mSocket = IO.socket(ServerIP);
             mSocket.on("mid_ranking", midresult);
             //  next_quiz
             mSocket.connect();
 
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException e)
+       {
+
             e.printStackTrace();
+
         }
     }
 
@@ -78,7 +85,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
 
                     Intent intent = new Intent(Blindrace.this, MidResult.class);
 
-                    intent.putExtra("Student_num", stdNum);
+                    intent.putExtra("session_num", sessionNum);
                     intent.putExtra("Nick_name", nick);
                     intent.putExtra("Room_num", roomNum);
                     intent.putExtra("rank", rank);
@@ -86,7 +93,6 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
                     intent.putExtra("ResultInfo", arg0[0].toString());
 
                     startActivity(intent);
-
 
                 }
             });
@@ -96,54 +102,81 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
 
-        if(R.id.button == view.getId()){
-            arg = "1";
+        if(R.id.button == view.getId())
+        {
+
+            answerNum = "1";
             button.setBackgroundColor(Color.WHITE);
             button2.setBackgroundColor(Color.parseColor("#3598db"));
             button3.setBackgroundColor(Color.parseColor("#f1c40f"));
             button4.setBackgroundColor(Color.parseColor("#e84c3d"));
+
         }
-        else if(R.id.button2 == view.getId()){
-            arg = "2";
+        else if(R.id.button2 == view.getId())
+        {
+
+            answerNum = "2";
             button2.setBackgroundColor(Color.WHITE);
             button.setBackgroundColor(Color.parseColor("#1bbc9b"));
             button3.setBackgroundColor(Color.parseColor("#f1c40f"));
             button4.setBackgroundColor(Color.parseColor("#e84c3d"));
+
         }
-        else if(R.id.button3 == view.getId()){
-            arg = "3";
+        else if(R.id.button3 == view.getId())
+        {
+
+            answerNum = "3";
             button3.setBackgroundColor(Color.WHITE);
-            button2.setBackgroundColor(Color.parseColor("#3598db"));
             button.setBackgroundColor(Color.parseColor("#1bbc9b"));
+            button2.setBackgroundColor(Color.parseColor("#3598db"));
             button4.setBackgroundColor(Color.parseColor("#e84c3d"));
+
         }
-        else if(R.id.button4 == view.getId()){
-            arg = "4";
+        else if(R.id.button4 == view.getId())
+        {
+
+            answerNum = "4";
             button4.setBackgroundColor(Color.WHITE);
+            button.setBackgroundColor(Color.parseColor("#1bbc9b"));
             button2.setBackgroundColor(Color.parseColor("#3598db"));
             button3.setBackgroundColor(Color.parseColor("#f1c40f"));
-            button.setBackgroundColor(Color.parseColor("#1bbc9b"));
+
         }
-        else if(R.id.submit == view.getId()){
+        else if(R.id.submit == view.getId())
+        {
 
             submit.setOnClickListener(null);
             //  arg 값이 없을 경우
 
+            if(answerNum == "")
+            {
+
+                Toast.makeText(getApplicationContext(), "답을 눌러쥬세용~", Toast.LENGTH_SHORT).show();
+                return;
+
+            }
             //  arg 값이 있을 경우
-            try {
+            try
+            {
+
                 mSocket = IO.socket(ServerIP);
                 mSocket.connect();
-            } catch(URISyntaxException e) {
+
+            }
+            catch(URISyntaxException e) {
+
                 e.printStackTrace();
+
             }
 
-            mSocket.emit("answer", arg, stdNum, nick);
+            mSocket.emit("answer", roomNum, answerNum, sessionNum, nick);
+
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mSocket.emit("leaveRoom",roomNum,stdNum);
+        mSocket.emit("leaveRoom",roomNum, sessionNum);
     }
 }

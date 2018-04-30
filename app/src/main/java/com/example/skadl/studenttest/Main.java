@@ -14,12 +14,8 @@ import android.widget.ImageButton;
 public class Main extends AppCompatActivity implements View.OnClickListener{
 
     private ImageButton admission, myGroup, record, feedback;
-    private String title, stdNum, stdName;
+    private String      sessionNum, stdName;
 
-    public Main(){
-        title = "메인";
-    }
-    
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_main);
@@ -28,12 +24,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         actionBar.hide();
 
         Intent getInfo = getIntent();
-        stdNum = getInfo.getStringExtra("Student_num");
+        sessionNum = getInfo.getStringExtra("session_num");
         stdName = getInfo.getStringExtra("Student_name");
-
-        title = stdNum;
-
-        setTitle(stdName);
 
         admission = (ImageButton)findViewById(R.id.admission);
         admission.setOnClickListener(this);
@@ -46,35 +38,44 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
 
         feedback = (ImageButton)findViewById(R.id.feedback);
         feedback.setOnClickListener(this);
+
     }
 
     public void onClick(View view) {
 
         Intent intent;
 
-        if(view.getId() == R.id.admission){
+        if(view.getId() == R.id.admission)
+        {
             //  방 입장
             intent = new Intent(Main.this, EnterRoom.class);
-            intent.putExtra("Student_num", stdNum);
+            intent.putExtra("session_num", sessionNum);
             startActivity(intent);
 
-        }else if(view.getId() == R.id.myGroup){
+        }
+        else if(view.getId() == R.id.myGroup)
+        {
             //  나의 그룹
             intent = new Intent(Main.this, GroupMain.class);
-            intent.putExtra("Student_num", stdNum);
+            intent.putExtra("session_num", sessionNum);
             startActivity(intent);
 
-        }else if(view.getId() == R.id.record){
+        }
+        else if(view.getId() == R.id.record)
+        {
             //  학습기록 조회
             intent = new Intent(Main.this, GradeRecord.class);
-            intent.putExtra("Student_num", stdNum);
+            intent.putExtra("session_num", sessionNum);
             startActivity(intent);
 
-        }else if(view.getId() == R.id.feedback){
+        }
+        else if(view.getId() == R.id.feedback)
+        {
             //  질문하기
             intent = new Intent(Main.this, Feedback.class);
-            intent.putExtra("Student_num", stdNum);
+            intent.putExtra("session_num", sessionNum);
             startActivity(intent);
+
         }
     }
 }

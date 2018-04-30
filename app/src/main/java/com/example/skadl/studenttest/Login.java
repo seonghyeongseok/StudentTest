@@ -59,7 +59,9 @@ public class Login extends AppCompatActivity {
                 final String ID = w_ID.getText().toString();
                 final String PW = w_PW.getText().toString();
 
-                try {
+                try
+                {
+
                     URL url = new URL("http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com/mobileLogin");
                     new AsyncTask<URL, Integer, String>() {
                         @Override
@@ -77,7 +79,9 @@ public class Login extends AppCompatActivity {
                             int i = 0;
 
                             String result = new String();
-                            try {
+                            try
+                            {
+
                                 publishProgress(i++);
                                 HttpURLConnection connection = (HttpURLConnection) params[0].openConnection();
                                 Log.i("http", "connected");
@@ -98,9 +102,12 @@ public class Login extends AppCompatActivity {
                                 BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8")); //문자열 셋팅
                                 String line;
 
-                                while ((line = reader.readLine()) != null) {
+                                while ((line = reader.readLine()) != null)
+                                {
+
                                     builder.append(line + "\n");
                                     publishProgress(i++);
+
                                 }
                                 result = builder.toString();
                                 Log.i("http", "result=" + result);
@@ -108,8 +115,12 @@ public class Login extends AppCompatActivity {
 
                                 is.close();
 
-                            } catch (IOException me) {
+                            }
+                            catch (IOException me)
+                            {
+
                                 me.printStackTrace();
+
                             }
                             return result;
                         }
@@ -119,40 +130,53 @@ public class Login extends AppCompatActivity {
                             super.onPostExecute(check);
 
                             String  stdName     = null;
-                            String  stdNum      = null;
+                            String  sessionNum  = null;
                             boolean checkLogin  = false;
 
-                            try {
-                                //JSONArray array = new JSONArray(check);
+                            try
+                            {
 
                                 JSONObject obj = new JSONObject(check);
 
                                 checkLogin  = obj.optBoolean("check");
                                 stdName     = obj.optString("userName");
-                                stdNum      = obj.optString("sessionId");
+                                sessionNum  = obj.optString("sessionId");
 
-                            } catch (Exception e) {
+                            }
+                            catch (Exception e)
+                            {
+
                                 e.printStackTrace();
                                 return;
+
                             }
                             //  check, sessionId, userName
 
-                            if(checkLogin){
+                            if(checkLogin)
+                            {
+
                                 Intent intent = new Intent(Login.this, Main.class);
-                                intent.putExtra("Student_num", stdNum);
+                                intent.putExtra("session_num", sessionNum);
                                 intent.putExtra("Student_name", stdName);
                                 startActivity(intent);
-                            }else{
+
+                            }
+                            else
+                            {
+
                                 Toast.makeText(context, "틀렸슴다", Toast.LENGTH_SHORT).show();
+
                             }
                         }
-                        //  아이디 패스워드 둘다 맞을때
-                        //아닐때
 
                     }.execute(url);
-                } catch (MalformedURLException e) {
+                }
+                catch (MalformedURLException e)
+                {
+
                     e.printStackTrace();
                     Toast.makeText(context, "인터넷이 연결되어 있지 않습니다.~", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
