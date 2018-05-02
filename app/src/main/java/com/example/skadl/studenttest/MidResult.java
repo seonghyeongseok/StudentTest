@@ -24,10 +24,11 @@ public class MidResult extends AppCompatActivity {
 
     public static final String      ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
 
-    private             Socket      mSocket;
-    private             ImageView   imageView;
-    private             TextView    text1, text2;
-    private             String      resultInfo, sessionNum, nick, roomNum, beforeRank, afterRank, point, character;
+    private Socket      mSocket;
+    private ImageView   imageView;
+    private TextView    text1, text2;
+    private String      resultInfo, sessionNum, nick, roomNum, beforeRank, afterRank, point,
+            character, quizId, type;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +90,7 @@ public class MidResult extends AppCompatActivity {
         try
         {
             mSocket = IO.socket(ServerIP);
-            mSocket.on("android_nextquiz", nextQuiz);
+            mSocket.on("android_next_quiz", nextQuiz);
             mSocket.on("race_ending", raceEnding);
             mSocket.connect();
 
@@ -112,6 +113,9 @@ public class MidResult extends AppCompatActivity {
             MidResult.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+
+                    String quizId = arg0[0].toString();
+                    String type = arg0[1].toString();
 
                     Intent intent = new Intent(MidResult.this, Blindrace.class);
 

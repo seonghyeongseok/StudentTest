@@ -21,38 +21,36 @@ import java.net.URISyntaxException;
  * Created by skadl on 2018-03-08.
  */
 
-public class EnterRoom extends AppCompatActivity implements View.OnClickListener {
+public class ChooseCandN extends AppCompatActivity implements View.OnClickListener {
 
     public static final String ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
 
     private Button      button;
-    private EditText    nickname, pinNum;
+    private EditText    nickname;
     private ImageButton chara[] = new ImageButton[9];
     private Socket      mSocket;
-    private String      title, sessionNum, character;
+    private String      title, sessionNum, character, roomNum;
     private int         id[] = new int[9];
 
-    public EnterRoom() {
+    public ChooseCandN() {
         title = "로그인";
     }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.find_room);
+        setContentView(R.layout.choose_char_nick);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
         Intent getNum = getIntent();
         sessionNum = getNum.getStringExtra("session_num");
-
-        setTitle(sessionNum);
+        roomNum = getNum.getStringExtra("Room_num");
 
         button = (Button) findViewById(R.id.find);
         button.setOnClickListener(this);
 
         nickname = (EditText) findViewById(R.id.nickname);
-        pinNum = (EditText) findViewById(R.id.pinnum);
 
         for (int i = 0; i < chara.length; i++)
         {
@@ -70,7 +68,7 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
         {
 
             mSocket = IO.socket(ServerIP);
-
+            mSocket.on("android_enter_room", enter_check);
             mSocket.connect();
 
         }
@@ -81,6 +79,47 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
 
         }
     }
+
+    private Emitter.Listener enter_check = new Emitter.Listener() {
+        @Override
+        public void call(final Object... arg0) {
+            ChooseCandN.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    String enter_checking = arg0[1].toString();
+
+                    if( enter_checking.equals("false")){
+                        //닉네임이나 캐릭터에 중복된 정보가 입력되었을 때
+                        if( sessionNum.equals(arg0[2].toString()) )
+                            Toast.makeText(getApplicationContext(), "중복된 캐릭터 혹은 닉네임입니다.", Toast.LENGTH_LONG).show();
+
+                    }else{
+                        // 닉네임과 캐릭터가 정상적으로 선택되었을 떄
+
+                        //선택된 캐릭터 비활성화
+                        int selected_chara_num  = Integer.parseInt(enter_checking)-1;
+                        chara[selected_chara_num].setEnabled(false);
+
+
+                        //올바른정보로 신청시 입장요청유저는 방입장
+                        if( sessionNum.equals(arg0[2].toString()) ) {
+
+                            String nick = nickname.getText().toString();
+                            Toast.makeText(getApplicationContext(), sessionNum, Toast.LENGTH_LONG).show();
+                            mSocket.emit("answer", "0", sessionNum, nick);
+                            Intent intent = new Intent(ChooseCandN.this, WaitingRoom.class);
+                            intent.putExtra("session_num", sessionNum);
+                            intent.putExtra("Nick_name", nick);
+                            intent.putExtra("Room_num", roomNum);
+                            intent.putExtra("char", character);
+                            startActivity(intent);
+                        }
+                    }
+                }
+            });
+        }
+    };
 
     public void onClick(View view) {
 
@@ -97,20 +136,10 @@ public class EnterRoom extends AppCompatActivity implements View.OnClickListener
                 }
 
                 String nick = nickname.getText().toString();
-                String pin = pinNum.getText().toString();
 
-                mSocket.emit("join", pin);
-                mSocket.emit("user_in", pin, nick, sessionNum, character);
+                mSocket.emit("join", roomNum);
+                mSocket.emit("user_in", roomNum, nick, sessionNum, character);
 
-                mSocket.emit("answer", "0", sessionNum, nick);
-
-                Intent intent = new Intent(EnterRoom.this, WaitingRoom.class);
-
-                intent.putExtra("session_num", sessionNum);
-                intent.putExtra("Nick_name", nick);
-                intent.putExtra("Room_num", pin);
-                intent.putExtra("char", character);
-                startActivity(intent);
                 break;
 
             case R.id.char1:

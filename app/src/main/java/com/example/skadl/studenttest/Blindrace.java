@@ -1,6 +1,5 @@
 package com.example.skadl.studenttest;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -60,16 +59,18 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
         submit = (Button)findViewById(R.id.submit);
         submit.setOnClickListener(this);
 
-       try
-       {
+        try
+        {
 
             mSocket = IO.socket(ServerIP);
             mSocket.on("mid_ranking", midresult);
+            //  mSocket.on("", );
             //  next_quiz
             mSocket.connect();
 
-        } catch (URISyntaxException e)
-       {
+        }
+        catch (URISyntaxException e)
+        {
 
             e.printStackTrace();
 

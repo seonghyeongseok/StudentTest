@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/essay_answer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="8dp"
@@ -40,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:hint="pin" />
+            android:hint="答え" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,7 +63,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/button_normal"
-            android:text="입장"
+            android:text="확인"
             android:textColor="#FFFFFF" />
 
     </LinearLayout>

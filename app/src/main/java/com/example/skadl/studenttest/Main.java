@@ -48,7 +48,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         if(view.getId() == R.id.admission)
         {
             //  방 입장
-            intent = new Intent(Main.this, EnterRoom.class);
+            intent = new Intent(Main.this, InputRoomNum.class);
             intent.putExtra("session_num", sessionNum);
             startActivity(intent);
 

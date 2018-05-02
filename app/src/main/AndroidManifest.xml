@@ -17,7 +17,7 @@
         </activity>
         <activity android:name=".Main"/>
         <activity android:name=".Join"/>
-        <activity android:name=".EnterRoom"/>
+        <activity android:name=".ChooseCandN"/>
         <activity android:name=".Blindrace"/>
         <activity android:name=".GroupMain"/>
         <activity android:name=".GradeRecord"/>
@@ -27,6 +27,7 @@
         <activity android:name=".MidResult"/>
         <activity android:name=".FinalResult"/>
         <activity android:name=".WaitingRoom"/>
+        <activity android:name=".InputRoomNum"/>
     </application>
 <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
