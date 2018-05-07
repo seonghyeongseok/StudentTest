@@ -1,3 +1,4 @@
+/*
 package com.example.skadl.studenttest;
 
 import android.content.Intent;
@@ -11,9 +12,11 @@ import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
 import java.net.URISyntaxException;
+*/
 /**
  * Created by skadl on 2018-04-14.
- */
+ *//*
+
 
 public class WaitingRoom extends AppCompatActivity {
 
@@ -71,7 +74,8 @@ public class WaitingRoom extends AppCompatActivity {
                     }
 
 
-                    /*Intent intent = new Intent(WaitingRoom.this, Blindrace.class);
+                    */
+/*Intent intent = new Intent(WaitingRoom.this, Blindrace.class);
                     Intent getInfo = getIntent();
 
                     sessionNum = getInfo.getStringExtra("session_num");
@@ -84,9 +88,11 @@ public class WaitingRoom extends AppCompatActivity {
                     intent.putExtra("rank", "0");
                     intent.putExtra("char", character);
                     intent.putExtra("Room_num", roomNum);
-                    startActivity(intent);*/
+                    startActivity(intent);*//*
+
                 }
             });
         }
     };
 }
+*/

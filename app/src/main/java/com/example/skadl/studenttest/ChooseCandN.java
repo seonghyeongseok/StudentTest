@@ -25,16 +25,15 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
 
     public static final String ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
 
-    private Button button;
-    private EditText nickname;
-    private ImageButton chara[] = new ImageButton[9];
     private Socket mSocket;
-    private String title, sessionNum, character, roomNum;
+
+    private Button      button;
+    private EditText    nickname;
+    private ImageButton chara[] = new ImageButton[9];
+
+    private String sessionNum, character, roomNum;
     private int id[] = new int[9];
 
-    public ChooseCandN() {
-        title = "로그인";
-    }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +43,9 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
         actionBar.hide();
 
         Intent getNum = getIntent();
-        sessionNum = getNum.getStringExtra("session_num");
-        roomNum = getNum.getStringExtra("Room_num");
+
+        sessionNum  = getNum.getStringExtra("session_num");
+        roomNum     = getNum.getStringExtra("Room_num");
 
         button = (Button) findViewById(R.id.find);
         button.setOnClickListener(this);
@@ -86,8 +86,10 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
                     String enter_checking = arg0[1].toString();
 
                     if (enter_checking.equals("false")) {
+
                         //닉네임이나 캐릭터에 중복된 정보가 입력되었을 때
                         if (sessionNum.equals(arg0[2].toString()))
+
                             Toast.makeText(getApplicationContext(), "중복된 캐릭터 혹은 닉네임입니다.", Toast.LENGTH_LONG).show();
 
                     } else {
@@ -97,14 +99,10 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
                         int selected_chara_num = Integer.parseInt(enter_checking) - 1;
                         chara[selected_chara_num].setEnabled(false);
 
-
                         //올바른정보로 신청시 입장요청유저는 방입장
                         if (sessionNum.equals(arg0[2].toString())) {
 
                             String nick = nickname.getText().toString();
-                            Toast.makeText(getApplicationContext(), sessionNum, Toast.LENGTH_LONG).show();
-
-                            mSocket.emit("answer", "0", sessionNum, nick);
 
                             Intent intent = new Intent(ChooseCandN.this, Blindrace.class);
                             intent.putExtra("session_num", sessionNum);

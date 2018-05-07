@@ -24,6 +24,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         actionBar.hide();
 
         Intent getInfo = getIntent();
+
         sessionNum = getInfo.getStringExtra("session_num");
         stdName = getInfo.getStringExtra("Student_name");
 

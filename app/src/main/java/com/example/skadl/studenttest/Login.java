@@ -24,12 +24,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-
 import java.net.URL;
-
-/**
- * Created by pheonix on 2018-03-02.
- */
 
 public class Login extends AppCompatActivity {
 
@@ -132,6 +127,8 @@ public class Login extends AppCompatActivity {
                             String  stdName     = null;
                             String  sessionNum  = null;
                             boolean checkLogin  = false;
+
+                            Log.d("gg", check);
 
                             try
                             {

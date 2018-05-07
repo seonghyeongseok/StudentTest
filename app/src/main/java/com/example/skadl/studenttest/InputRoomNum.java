@@ -25,10 +25,10 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
 
     private static final String ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
 
-    private String sessionNum, roomNum = null;
-    private Button button;
-    private EditText pinNum;
-    private Socket mSocket;
+    private String      sessionNum, roomNum = null;
+    private Button      button;
+    private EditText    pinNum;
+    private Socket      mSocket;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,21 +76,23 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
                     Log.d("3", sessionNum);
 
                     if(check && checkSessionNum.equals(sessionNum)){
+
                         mSocket.emit("join", roomNum);
                         Intent intent = new Intent(InputRoomNum.this, ChooseCandN.class);
 
                         intent.putExtra("session_num", sessionNum);
                         intent.putExtra("Room_num", roomNum);
                         startActivity(intent);
-                    }else{
+
+                    }
+                    else {
+
                         Toast.makeText(getApplicationContext(), "제대로입력해주십셔~", Toast.LENGTH_SHORT).show();
                         Log.d("4", String.valueOf(check));
                         Log.d("5", checkSessionNum);
                         Log.d("6", sessionNum);
+
                     }
-
-
-
                 }
             });
         }

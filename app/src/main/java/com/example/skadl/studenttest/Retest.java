@@ -13,9 +13,8 @@ import android.widget.TextView;
 
 public class  Retest extends AppCompatActivity implements View.OnClickListener{
 
-    private Button submit;
-
-    private TextView questName;
+    private Button      submit;
+    private TextView    questName;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +34,9 @@ public class  Retest extends AppCompatActivity implements View.OnClickListener{
         if(view.getId() == R.id.submit){
 
             //  재시험 정보 db 등록
-
             Intent intent = new Intent(Retest.this, GradeRecord.class);
             startActivity(intent);
+
         }
     }
 }

@@ -17,10 +17,8 @@ import android.widget.TextView;
 public class Note extends AppCompatActivity implements View.OnClickListener{
 
     //  정보 받아와서 초기화
-    private TextView questName;
-
-    //  버튼 정보
-    private Button question, submit;
+    private TextView    questName;
+    private Button      question, submit;
 
     //  메인
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +41,17 @@ public class Note extends AppCompatActivity implements View.OnClickListener{
 
     //  온클릭
     public void onClick(View view) {
+
         if(view.getId() == R.id.question){
+
             questionDialog();
+
         }else if(view.getId() == R.id.submit){
+
             submitDialog();
+
         }
+
     }
 
     //  질문 버튼 다이알로그
@@ -87,6 +91,7 @@ public class Note extends AppCompatActivity implements View.OnClickListener{
 
     //  제출 버튼 다이알로그
     private void submitDialog(){
+
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
         alert.setTitle("알림");

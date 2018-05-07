@@ -1,3 +1,4 @@
+/*
 package com.example.skadl.studenttest;
 
 import android.content.Intent;
@@ -16,9 +17,11 @@ import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 
+*/
 /**
  * Created by skadl on 2018-04-03.
- */
+ *//*
+
 
 public class MidResult extends AppCompatActivity {
 
@@ -150,4 +153,4 @@ public class MidResult extends AppCompatActivity {
             });
         }
     };
-}
+}*/

@@ -36,15 +36,14 @@ public class FinalResult extends AppCompatActivity{
         nick        = getInfo.getStringExtra("Nick_name");
         sessionNum  = getInfo.getStringExtra("session_num");
         point       = getInfo.getStringExtra("point");
-        rank        = getInfo.getStringExtra("rank");
+        //rank        = getInfo.getStringExtra("rank");
 
         imageView.setImageResource(getResources().getIdentifier(
                 "char"+character, "drawable", this.getPackageName()));
 
         text1.setText(Integer.parseInt(point) * 100 + "점");
-        text2.setText(rank+" 등");
+        //text2.setText(rank+" 등");
         text3.setText(nick+" 님");
-
 
     }
 }
