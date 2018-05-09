@@ -216,19 +216,26 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
                     {
                         JSONArray array = new JSONArray(resultInfo);
 
+                        for(int i = 0 ; i < array.length() ; i++) {
 
-                            JSONObject obj = array.getJSONObject(0);
+                            JSONObject obj = array.getJSONObject(i);
 
                             String temp = obj.optString("sessionId");
 
-                            if (sessionNum.equals(temp))
-                            {
+                            if (sessionNum.equals(temp)) {
 
-                                point       = obj.optString("rightCount");
+                                point = obj.optString("rightCount");
 
-                                result      = obj.optString("answer");
+                                if (point == null) {
+                                    point = "0";
+                                }
+
+                                rank = String.valueOf(i+1);
+
+                                result = obj.optString("answer");
 
                             }
+                        }
 
                     }
                     catch (Exception e)
@@ -242,7 +249,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
                     imageView.setImageResource(getResources().getIdentifier(
                             "char"+character, "drawable", "com.example.skadl.studenttest"));
                     stdResult.setText(result);
-                    stdRankAndPoint.setText(Integer.parseInt(point) * 100 + "점");
+                    stdRankAndPoint.setText(Integer.parseInt(point) * 100 + "점 " + rank + "등");
                 }
             });
         }

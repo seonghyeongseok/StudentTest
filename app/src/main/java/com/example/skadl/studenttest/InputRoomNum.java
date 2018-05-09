@@ -65,11 +65,15 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void run() {
 
+                    Intent intent = null;
+
                     boolean check = false;
                     String checkSessionNum = null;
+                    String category = null;
 
                     check = Boolean.valueOf(arg0[0].toString()).booleanValue();
                     checkSessionNum = arg0[1].toString();
+                    //category = arg0[2].toString();
 
                     Log.d("1", String.valueOf(check));
                     Log.d("2", arg0[1].toString());
@@ -78,14 +82,40 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
                     if(check && checkSessionNum.equals(sessionNum)){
 
                         mSocket.emit("join", roomNum);
-                        Intent intent = new Intent(InputRoomNum.this, ChooseCandN.class);
+                        intent = new Intent(InputRoomNum.this, ChooseCandN.class);
 
                         intent.putExtra("session_num", sessionNum);
                         intent.putExtra("Room_num", roomNum);
                         startActivity(intent);
 
+                        /*switch (category){
+
+                            case "race":
+                                mSocket.emit("join", roomNum);
+                                intent = new Intent(InputRoomNum.this, ChooseCandN.class);
+
+                                intent.putExtra("session_num", sessionNum);
+                                intent.putExtra("Room_num", roomNum);
+                                startActivity(intent);
+                                break;
+
+                            case "popQuiz":
+
+                                intent = new Intent(InputRoomNum.this, ChooseCandN.class);
+
+                                intent.putExtra("session_num", sessionNum);
+                                startActivity(intent);
+
+                                break;
+
+                            default:
+
+                                break;
+
+                        }*/
+
                     }
-                    else {
+                    else if(checkSessionNum.equals(sessionNum)){
 
                         Toast.makeText(getApplicationContext(), "제대로입력해주십셔~", Toast.LENGTH_SHORT).show();
                         Log.d("4", String.valueOf(check));

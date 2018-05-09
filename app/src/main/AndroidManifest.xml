@@ -24,10 +24,9 @@
         <activity android:name=".Note"/>
         <activity android:name=".Retest"/>
         <activity android:name=".Feedback"/>
-        <activity android:name=".MidResult"/>
         <activity android:name=".FinalResult"/>
-        <activity android:name=".WaitingRoom"/>
         <activity android:name=".InputRoomNum"/>
+        <activity android:name=".PopQuiz"/>
     </application>
 <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
