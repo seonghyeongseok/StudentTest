@@ -25,7 +25,7 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
 
     public static final String ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
 
-    private Socket mSocket;
+    private Socket      mSocket;
 
     private Button      button;
     private EditText    nickname;
@@ -120,9 +120,14 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
 
     public void onClick(View view) {
 
-        switch (view.getId()) {
+        for(int i = 0 ; i < chara.length ; i++){
 
-            case R.id.find:
+            if(id[i] == view.getId()){
+                chara[i].setBackgroundColor(Color.RED);
+                character = String.valueOf(i+1);
+            }else if(R.id.find == view.getId()){
+
+                //button.setText(character + nickname.getText().toString());
 
                 if (character == null) {
 
@@ -137,123 +142,10 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
                 mSocket.emit("user_in", roomNum, nick, sessionNum, character);
 
                 break;
+            }else{
+                chara[i].setBackgroundColor(Color.BLUE);
+            }
 
-            case R.id.char1:
-
-                for (int i = 0; i < chara.length; i++) {
-
-                    chara[i].setBackgroundColor(Color.BLUE);
-
-                }
-
-                chara[0].setBackgroundColor(Color.RED);
-
-                character = "1";
-                break;
-
-            case R.id.char2:
-
-                for (int i = 0; i < chara.length; i++) {
-
-                    chara[i].setBackgroundColor(Color.BLUE);
-
-                }
-
-                chara[1].setBackgroundColor(Color.RED);
-
-                character = "2";
-                break;
-
-            case R.id.char3:
-
-                for (int i = 0; i < chara.length; i++) {
-
-                    chara[i].setBackgroundColor(Color.BLUE);
-
-                }
-
-                chara[2].setBackgroundColor(Color.RED);
-
-                character = "3";
-                break;
-
-            case R.id.char4:
-
-                for (int i = 0; i < chara.length; i++) {
-
-                    chara[i].setBackgroundColor(Color.BLUE);
-
-                }
-
-                chara[3].setBackgroundColor(Color.RED);
-
-                character = "4";
-                break;
-
-            case R.id.char5:
-
-                for (int i = 0; i < chara.length; i++) {
-
-                    chara[i].setBackgroundColor(Color.BLUE);
-
-                }
-
-                chara[4].setBackgroundColor(Color.RED);
-
-                character = "5";
-                break;
-
-            case R.id.char6:
-
-                for (int i = 0; i < chara.length; i++) {
-
-                    chara[i].setBackgroundColor(Color.BLUE);
-
-                }
-
-                chara[5].setBackgroundColor(Color.RED);
-
-                character = "6";
-                break;
-
-            case R.id.char7:
-
-                for (int i = 0; i < chara.length; i++) {
-
-                    chara[i].setBackgroundColor(Color.BLUE);
-
-                }
-
-                chara[6].setBackgroundColor(Color.RED);
-
-                character = "7";
-                break;
-
-            case R.id.char8:
-
-                for (int i = 0; i < chara.length; i++) {
-
-                    chara[i].setBackgroundColor(Color.BLUE);
-
-                }
-
-                chara[7].setBackgroundColor(Color.RED);
-
-                character = "8";
-                break;
-
-            case R.id.char9:
-
-                for (int i = 0; i < chara.length; i++) {
-
-                    chara[i].setBackgroundColor(Color.BLUE);
-
-                }
-
-                chara[8].setBackgroundColor(Color.RED);
-
-                character = "9";
-                break;
         }
     }
 }

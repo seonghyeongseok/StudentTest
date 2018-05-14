@@ -209,6 +209,8 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
                     Log.d("nexttype", type);
                     Log.d("next2", arg0[1].toString());
 
+                    essayView.setVisibility(View.GONE);
+                    choiceView.setVisibility(View.GONE);
                     loadingView.setVisibility(View.GONE);
                     midResultView.setVisibility(View.VISIBLE);
 
@@ -383,6 +385,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
             button4.setBackgroundColor(Color.parseColor("#e84c3d"));
 
             mSocket.emit("answer", roomNum , answerNum, sessionNum, nick, quizId);
+            essay.setText("");
 
         }
     }

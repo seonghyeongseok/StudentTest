@@ -147,12 +147,15 @@ public class GradeRecord extends AppCompatActivity implements View.OnClickListen
 
         LineDataSet setComp2 = new LineDataSet(grammar, "문법");
         setComp2.setAxisDependency(YAxis.AxisDependency.LEFT);
-        setComp2.setColor(Color.YELLOW);
-        setComp2.setCircleColorHole(Color.YELLOW);
-        setComp2.setCircleColor(Color.YELLOW);
+        setComp2.setColor(Color.BLUE);
+        setComp2.setCircleColorHole(Color.BLUE);
+        setComp2.setCircleColor(Color.BLUE);
 
         LineDataSet setComp3 = new LineDataSet(vocabulary, "어휘");
         setComp3.setAxisDependency(YAxis.AxisDependency.LEFT);
+        setComp2.setColor(Color.GREEN);
+        setComp2.setCircleColorHole(Color.GREEN);
+        setComp2.setCircleColor(Color.GREEN);
 
         final String[] quarters = new String[] { "2월", "3월", "4월", "5월" };
 
