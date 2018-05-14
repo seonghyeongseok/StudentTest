@@ -13,15 +13,12 @@ import android.widget.ImageButton;
 
 public class Main extends AppCompatActivity implements View.OnClickListener{
 
-    private ImageButton admission, myGroup, record, feedback;
+    private ImageButton admission, record, feedback;
     private String      sessionNum, stdName;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_main);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
 
         Intent getInfo = getIntent();
 
@@ -30,9 +27,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
 
         admission = (ImageButton)findViewById(R.id.admission);
         admission.setOnClickListener(this);
-
-        myGroup = (ImageButton)findViewById(R.id.myGroup);
-        myGroup.setOnClickListener(this);
 
         record = (ImageButton)findViewById(R.id.record);
         record.setOnClickListener(this);
@@ -51,22 +45,16 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
             //  방 입장
             intent = new Intent(Main.this, InputRoomNum.class);
             intent.putExtra("session_num", sessionNum);
-            startActivity(intent);
-
-        }
-        else if(view.getId() == R.id.myGroup)
-        {
-            //  나의 그룹
-            intent = new Intent(Main.this, GroupMain.class);
-            intent.putExtra("session_num", sessionNum);
+            intent.putExtra("student_name", stdName);
             startActivity(intent);
 
         }
         else if(view.getId() == R.id.record)
         {
             //  학습기록 조회
-            intent = new Intent(Main.this, GradeRecord.class);
+            intent = new Intent(Main.this, GroupMain.class);
             intent.putExtra("session_num", sessionNum);
+            intent.putExtra("student_name", stdName);
             startActivity(intent);
 
         }
@@ -75,6 +63,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
             //  질문하기
             intent = new Intent(Main.this, Feedback.class);
             intent.putExtra("session_num", sessionNum);
+            intent.putExtra("student_name", stdName);
             startActivity(intent);
 
         }

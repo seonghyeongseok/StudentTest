@@ -36,9 +36,6 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-
         final Context context = this;
 
         w_ID    = (EditText) findViewById(R.id.userid);

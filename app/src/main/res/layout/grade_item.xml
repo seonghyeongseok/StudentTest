@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:weightSum="10">
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="날짜"
+        android:background="@drawable/custom_border"/>
+
+    <TextView
+        android:id="@+id/quiz_name"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:text="퀴즈명"
+        android:background="@drawable/custom_border"/>
+
+    <TextView
+        android:id="@+id/grade"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="점수"
+        android:background="@drawable/custom_border"/>
+
+    <TextView
+        android:id="@+id/note"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:text="오답노트"
+        android:background="@drawable/custom_border"/>
+
+    <TextView
+        android:id="@+id/retest"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:text="재시험"
+        android:background="@drawable/custom_border"/>
+
+</LinearLayout>

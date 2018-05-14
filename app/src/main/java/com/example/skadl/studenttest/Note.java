@@ -1,6 +1,7 @@
 package com.example.skadl.studenttest;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,19 +18,25 @@ import android.widget.TextView;
 public class Note extends AppCompatActivity implements View.OnClickListener{
 
     //  정보 받아와서 초기화
-    private TextView    questName;
+    private TextView    questName, textView;
     private Button      question, submit;
+    private String      sessionNum, stdName, quizName;
 
     //  메인
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.note);
 
-        //  문제 이름 가지고
-        String name = "레이스1";
-        questName = (TextView)findViewById(R.id.questName);
-        questName.setText(name);
+        Intent getInfo = getIntent();
 
+        sessionNum = getInfo.getStringExtra("session_num");
+        stdName = getInfo.getStringExtra("student_name");
+        quizName = getInfo.getStringExtra("quiz_name");
+
+        questName = (TextView)findViewById(R.id.questName);
+        questName.setText(quizName);
+
+        textView = (TextView)findViewById(R.id.textView6);
         //  문제 출력하기
 
         question = (Button)findViewById(R.id.question);
@@ -37,6 +44,7 @@ public class Note extends AppCompatActivity implements View.OnClickListener{
 
         submit = (Button)findViewById(R.id.submit);
         submit.setOnClickListener(this);
+
     }
 
     //  온클릭

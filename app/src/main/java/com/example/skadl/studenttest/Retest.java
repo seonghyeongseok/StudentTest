@@ -14,16 +14,24 @@ import android.widget.TextView;
 public class  Retest extends AppCompatActivity implements View.OnClickListener{
 
     private Button      submit;
-    private TextView    questName;
+    private TextView    questName, textView;
+    private String      sessionNum, stdName, quizName;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.retest);
 
+        Intent getInfo = getIntent();
+
         //  문제 명 받아오기
-        String name = "레이스1";
+        sessionNum = getInfo.getStringExtra("session_num");
+        stdName = getInfo.getStringExtra("student_name");
+        quizName = getInfo.getStringExtra("quiz_name");
+
         questName = (TextView)findViewById(R.id.questName);
-        questName.setText(name);
+        questName.setText(quizName);
+
+        textView = (TextView)findViewById(R.id.textView6);
 
         submit = (Button)findViewById(R.id.submit);
         submit.setOnClickListener(this);
