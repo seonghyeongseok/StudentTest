@@ -54,9 +54,15 @@ public class MyGroupAdapter extends BaseAdapter {
         }
 
         TextView className = (TextView)view.findViewById(R.id.class_name);
+        TextView retestState = (TextView)view.findViewById(R.id.retest_state);
+        TextView noteState = (TextView)view.findViewById(R.id.note_state);
+        TextView classId = (TextView)view.findViewById(R.id.class_id);
         ImageButton classImage = (ImageButton)view.findViewById(R.id.imageButton);
 
         className.setText(classList.get(i).className);
+        retestState.setText("재시 : " + classList.get(i).retestState);
+        noteState.setText("오답노트 : " + classList.get(i).noteState);
+        classId.setText(classList.get(i).classId);
         classImage.setOnClickListener(classList.get(i).onClickListener);
         className.setOnClickListener(classList.get(i).onClickListener);
 

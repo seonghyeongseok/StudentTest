@@ -103,7 +103,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
         character   = getInfo.getStringExtra("char");
         sessionNum  = getInfo.getStringExtra("session_num");
         nick        = getInfo.getStringExtra("Nick_name");
-        roomNum     = getInfo.getStringExtra("Room_num");
+        roomNum     = getInfo.getStringExtra("room_num");
 
         button = (Button)findViewById(R.id.button1);
         button.setOnClickListener(this);
@@ -124,6 +124,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
 
         submit = (Button)findViewById(R.id.submit);
         submit.setOnClickListener(this);
+
     }
 
     private Emitter.Listener timer = new Emitter.Listener() {

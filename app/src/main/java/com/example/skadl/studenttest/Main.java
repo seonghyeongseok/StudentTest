@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by skadl on 2018-03-08.
@@ -13,8 +16,11 @@ import android.widget.ImageButton;
 
 public class Main extends AppCompatActivity implements View.OnClickListener{
 
+    private final String IP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com/mobileLogout";
+
     private ImageButton admission, record, feedback;
     private String      sessionNum, stdName;
+    private String      returnValue;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +30,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
 
         sessionNum = getInfo.getStringExtra("session_num");
         stdName = getInfo.getStringExtra("Student_name");
+
+        Log.e("main", sessionNum);
 
         admission = (ImageButton)findViewById(R.id.admission);
         admission.setOnClickListener(this);
@@ -36,6 +44,10 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
 
     }
 
+    /**
+     * Click 처리 함수.
+     * @param view Clicked view
+     */
     public void onClick(View view) {
 
         Intent intent;
@@ -67,6 +79,31 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
             startActivity(intent);
 
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        String params;
+
+        params = "sessionId=" + sessionNum;
+
+        try {
+
+            returnValue = new MyAsyncTask(IP).execute(params).get();
+            Log.e("dd",returnValue);
+
+        } catch (InterruptedException e) {
+
+            e.printStackTrace();
+
+        } catch (ExecutionException e) {
+
+            e.printStackTrace();
+
+        }
+
     }
 }
 

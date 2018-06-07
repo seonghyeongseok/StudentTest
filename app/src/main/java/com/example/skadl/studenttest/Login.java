@@ -25,11 +25,17 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
-public class Login extends AppCompatActivity {
+public class Login extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText    w_ID, w_PW;
-    private Button      login;
+    private final String IP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com/mobileLogin";
+
+    private EditText w_ID, w_PW;
+    private Button login;
+    private String stdName = null;
+    private String sessionNum = null;
+    private boolean checkLogin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +44,13 @@ public class Login extends AppCompatActivity {
 
         final Context context = this;
 
-        w_ID    = (EditText) findViewById(R.id.userid);
-        w_PW    = (EditText) findViewById(R.id.password);
-        login   = (Button) findViewById(R.id.login);
+        w_ID = (EditText) findViewById(R.id.userid);
+        w_PW = (EditText) findViewById(R.id.password);
+        login = (Button) findViewById(R.id.login);
 
-        login.setOnClickListener(new View.OnClickListener() {
+        login.setOnClickListener(this);
+
+        /*login.setOnClickListener(new View.OnClickListener() {
 
             @SuppressLint("StaticFieldLeak")
             @Override
@@ -101,6 +109,7 @@ public class Login extends AppCompatActivity {
                                     publishProgress(i++);
 
                                 }
+
                                 result = builder.toString();
                                 Log.i("http", "result=" + result);
                                 publishProgress(i++);
@@ -173,6 +182,82 @@ public class Login extends AppCompatActivity {
 
                 }
             }
-        });
+        });*/
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        if (view.getId() == R.id.login) {
+
+            checkLogin = false;
+
+            String returnValue = null;
+            String params = null;
+            String ID = w_ID.getText().toString();
+            String PW = w_PW.getText().toString();
+            Boolean check = false;
+
+            params = "p_ID=" + ID + "&p_PW=" + PW;
+
+            try {
+
+                returnValue = new MyAsyncTask(IP).execute(params).get();
+                Log.e("aaa", returnValue);
+
+            } catch (InterruptedException e) {
+
+                e.printStackTrace();
+
+            } catch (ExecutionException e) {
+
+                e.printStackTrace();
+
+            }
+
+            try {
+
+                JSONObject obj = new JSONObject(returnValue);
+
+                checkLogin = obj.optBoolean("check");
+
+                check = obj.optBoolean("loginCheck");
+                stdName = obj.optString("userName");
+                sessionNum = obj.optString("sessionId");
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+                return;
+
+            }
+            //  check, sessionId, userName
+
+            if (checkLogin) {
+
+                if(!check){
+                    Toast.makeText(getBaseContext(), "이미 로그인 되어있습니당", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Intent intent = new Intent(Login.this, Main.class);
+                intent.putExtra("session_num", sessionNum);
+                intent.putExtra("Student_name", stdName);
+                startActivity(intent);
+
+            } else {
+
+                Toast.makeText(getBaseContext(), "틀렸슴다", Toast.LENGTH_SHORT).show();
+
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        w_ID.setText(null);
+        w_PW.setText(null);
     }
 }

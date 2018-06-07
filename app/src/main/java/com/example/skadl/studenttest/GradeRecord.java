@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -19,10 +20,13 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by skadl on 2018-03-08.
@@ -30,7 +34,9 @@ import java.util.List;
 
 public class GradeRecord extends AppCompatActivity implements View.OnClickListener{
 
-    private String sessionNum, stdName, className;
+    private final String IP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com/mobileGetStudents";
+
+    private String sessionNum, stdName, className, classId, returnValue;
     private TextView textView;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,31 +48,70 @@ public class GradeRecord extends AppCompatActivity implements View.OnClickListen
         sessionNum  = getInfo.getStringExtra("session_num");
         stdName     = getInfo.getStringExtra("student_name");
         className   = getInfo.getStringExtra("group_name");
+        classId     = getInfo.getStringExtra("group_id");
+
+        String params;
+
+        params = "sessionId=" + sessionNum + "&groupId=" + classId;
+
+        try {
+
+            returnValue = new MyAsyncTask(IP).execute(params).get();
+            Log.e("dd", returnValue);
+
+
+        } catch (InterruptedException e) {
+
+            e.printStackTrace();
+
+        } catch (ExecutionException e) {
+
+            e.printStackTrace();
+
+        }
 
         textView = (TextView)findViewById(R.id.student_name);
         textView.setText(className);
 
         ListView listView = (ListView)findViewById(R.id.grade_list);
 
-        String gradeInfo[][] = {{"1-12", "급소공략 1", "89", "미제출", "완료"}, {"3-2", "급소공략 2", "67", "미제출", "미응시"},
-                {"4-6", "스쿠스쿠 1", "99", "제출완료", "완료"}, {"5-12", "스쿠스쿠 1", "100", "미제출", "완료"},
-                {"5-22", "4주 3일차", "94", "제출완료", "완료"}, {"6-7", "4주 5일차", "100", "미제출", "완료"}};
-
         ArrayList<GradeItem> gradeList = new ArrayList<>();
 
-        for(int i = 0 ; i < gradeInfo.length ; i++)
-        {
+        try {
 
-            GradeItem list = new GradeItem();
+            JSONObject value = new JSONObject(returnValue);
 
-            list.date       = gradeInfo[i][0];
-            list.quizName   = gradeInfo[i][1];
-            list.grade      = gradeInfo[i][2];
-            list.note       = gradeInfo[i][3];
-            list.retest     = gradeInfo[i][4];
+            Boolean check = value.optBoolean("check");
+            JSONArray list = value.optJSONArray("groups");
 
-            gradeList.add(list);
-            list.onClickListener = this;
+            for(int i = 0 ; i < list.length() ; i++){
+                JSONObject gradeInfo = list.getJSONObject(i);
+
+                GradeItem grade = new GradeItem();
+
+                String month = gradeInfo.optString("month");
+                String day = gradeInfo.optString("day");
+
+                String retestState = gradeInfo.optString("retestState");
+                String noteState = gradeInfo.optString("wrongState");
+
+                if(retestState.equals("claer")){
+
+                }
+
+                grade.date = month + " / " + day;
+                grade.quizName = gradeInfo.optString("listName");
+                grade.grade = gradeInfo.optString("wrongStateCount");
+                grade.retest = gradeInfo.optString("groupId");
+                grade.note = gradeInfo.optString("groupId");
+                
+                gradeList.add(grade);
+                grade.onClickListener = this;
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
 
         }
 

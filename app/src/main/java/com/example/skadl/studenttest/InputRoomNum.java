@@ -73,7 +73,7 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
 
                     check = Boolean.valueOf(arg0[0].toString()).booleanValue();
                     checkSessionNum = arg0[1].toString();
-                    //category = arg0[2].toString();
+                    category = arg0[2].toString();
 
                     Log.d("1", String.valueOf(check));
                     Log.d("2", arg0[1].toString());
@@ -82,37 +82,29 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
                     if(check && checkSessionNum.equals(sessionNum)){
 
                         mSocket.emit("join", roomNum);
-                        intent = new Intent(InputRoomNum.this, ChooseCandN.class);
+                        //  조인할때 필요하단다 - ジュンヒから。。
 
-                        intent.putExtra("session_num", sessionNum);
-                        intent.putExtra("Room_num", roomNum);
-                        startActivity(intent);
-
-                        /*switch (category){
+                        switch (category){
 
                             case "race":
-                                mSocket.emit("join", roomNum);
-                                intent = new Intent(InputRoomNum.this, ChooseCandN.class);
 
-                                intent.putExtra("session_num", sessionNum);
-                                intent.putExtra("Room_num", roomNum);
-                                startActivity(intent);
+                                intent = new Intent(InputRoomNum.this, ChooseCandN.class);
                                 break;
 
                             case "popQuiz":
 
-                                intent = new Intent(InputRoomNum.this, ChooseCandN.class);
-
-                                intent.putExtra("session_num", sessionNum);
-                                startActivity(intent);
-
+                                intent = new Intent(InputRoomNum.this, PopQuiz.class);
                                 break;
 
                             default:
 
                                 break;
 
-                        }*/
+                        }
+
+                        intent.putExtra("session_num", sessionNum);
+                        intent.putExtra("room_num", roomNum);
+                        startActivity(intent);
 
                     }
                     else if(checkSessionNum.equals(sessionNum)){

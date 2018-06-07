@@ -5,13 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by skadl on 2018-03-08.
@@ -19,8 +24,11 @@ import java.util.ArrayList;
 
 public class GroupMain extends AppCompatActivity implements View.OnClickListener {
 
+    private final String IP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com/mobileStudentGroupsGet";
+
     private String stdName, sessionNum;
     private Button button;
+    private String returnValue;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -34,20 +42,52 @@ public class GroupMain extends AppCompatActivity implements View.OnClickListener
 
         ListView listView = (ListView) findViewById(R.id.myGroup);
 
-        String[] className = {"1학년 A반", "1학년 B반", "1학년 C반",
-                "2학년 A반", "2학년 B반", "2학년 C반"};
+        String params;
+
+        params = "sessionId=" + sessionNum;
+
+        try {
+
+            returnValue = new MyAsyncTask(IP).execute(params).get();
+            Log.e("dd", returnValue);
+
+
+        } catch (InterruptedException e) {
+
+            e.printStackTrace();
+
+        } catch (ExecutionException e) {
+
+            e.printStackTrace();
+
+        }
 
         ArrayList<MyGroupItem> classList = new ArrayList<>();
 
-        for(int i = 0 ; i < className.length ; i++)
-        {
+        try {
 
-            MyGroupItem list = new MyGroupItem();
+            JSONObject value = new JSONObject(returnValue);
 
-            list.className = className[i];
+            Boolean check = value.optBoolean("check");
+            JSONArray list = value.optJSONArray("groups");
 
-            classList.add(list);
-            list.onClickListener = this;
+            for(int i = 0 ; i < list.length() ; i++){
+                JSONObject groupInfo = list.getJSONObject(i);
+
+                MyGroupItem groupList = new MyGroupItem();
+
+                groupList.className = groupInfo.optString("groupName");
+                groupList.retestState = groupInfo.optString("retestStateCount");
+                groupList.noteState = groupInfo.optString("wrongStateCount");
+                groupList.classId = groupInfo.optString("groupId");
+
+                classList.add(groupList);
+                groupList.onClickListener = this;
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
 
         }
 
@@ -57,6 +97,8 @@ public class GroupMain extends AppCompatActivity implements View.OnClickListener
 
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
+
+        //button.setText(returnValue);
 
         //  학생 별 그룹 개수만큼 이미지/반이름 버튼 만들기 -> 메서드작성
         //  버튼은 이후 해당 반에서의 학생 성적조회를 보는 페이지로 이동
@@ -74,11 +116,13 @@ public class GroupMain extends AppCompatActivity implements View.OnClickListener
 
         View parentView = (View)view.getParent();
         TextView className = (TextView)parentView.findViewById(R.id.class_name);
+        TextView classId = (TextView)parentView.findViewById(R.id.class_id);
         //String position = (String)parentView.getTag();
 
         Intent intent = new Intent(GroupMain.this, GradeRecord.class);
 
         intent.putExtra("group_name", className.getText().toString());
+        intent.putExtra("group_id", classId.getText().toString());
         intent.putExtra("session_num", sessionNum);
         intent.putExtra("student_name", stdName);
         startActivity(intent);

@@ -45,7 +45,7 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
         Intent getNum = getIntent();
 
         sessionNum  = getNum.getStringExtra("session_num");
-        roomNum     = getNum.getStringExtra("Room_num");
+        roomNum     = getNum.getStringExtra("room_num");
 
         button = (Button) findViewById(R.id.find);
         button.setOnClickListener(this);
@@ -107,7 +107,7 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
                             Intent intent = new Intent(ChooseCandN.this, Blindrace.class);
                             intent.putExtra("session_num", sessionNum);
                             intent.putExtra("Nick_name", nick);
-                            intent.putExtra("Room_num", roomNum);
+                            intent.putExtra("room_num", roomNum);
                             intent.putExtra("char", character);
 
                             startActivity(intent);
