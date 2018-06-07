@@ -29,6 +29,8 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
     private Button      button;
     private EditText    pinNum;
     private Socket      mSocket;
+    private String      character_info;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +76,7 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
                     check = Boolean.valueOf(arg0[0].toString()).booleanValue();
                     checkSessionNum = arg0[1].toString();
                     category = arg0[2].toString();
+                    character_info = arg0[3].toString();
 
                     Log.d("1", String.valueOf(check));
                     Log.d("2", arg0[1].toString());
@@ -104,6 +107,10 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
 
                         intent.putExtra("session_num", sessionNum);
                         intent.putExtra("room_num", roomNum);
+                        intent.putExtra("character_Info", character_info);
+
+                        Toast.makeText(getApplicationContext(), character_info, Toast.LENGTH_LONG).show();
+
                         startActivity(intent);
 
                     }
@@ -119,6 +126,7 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
             });
         }
     };
+
 
     @Override
     public void onClick(View view) {
