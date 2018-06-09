@@ -82,6 +82,13 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+
+        Log.e("스탑", "스탑");
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 

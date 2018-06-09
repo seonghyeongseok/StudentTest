@@ -55,7 +55,7 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
     private int quizStatus = 1;
     private int timerValue = 0;
 
-    private String roomNum, sessionNum, quizId;
+    private String roomNum, sessionNum, quizId, stdName;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +64,9 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
         Intent getInfo = getIntent();
 
         sessionNum = getInfo.getStringExtra("session_num");
+        stdName = getInfo.getStringExtra("student_name");
         roomNum = getInfo.getStringExtra("room_num");
+        //  학생 이름 보내기 추가
 
         essay = (LinearLayout) findViewById(R.id.essay_view);
         choice = (LinearLayout) findViewById(R.id.choice_view);
@@ -244,6 +246,8 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
 
         if(view.getId() == R.id.send){
 
+
+            //      체크
             status.setText(quizStatus+"/"+numberOfQuiz);
 
             String answer = null;
@@ -256,7 +260,6 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
 
                 case "sub":
                     answer = essayAnswer.getText().toString();
-
                     break;
 
                 default:
@@ -267,9 +270,17 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
             mSocket.emit("answer", roomNum , answer, sessionNum, null, obj.optString("quizId"));
 
             if(quizStatus == numberOfQuiz) {
+                //  실행 안됬어영
                 mSocket.emit("pop_quiz_status", "끝났슈~", roomNum);
+
+                Intent intent = new Intent(PopQuiz.this, Main.class);
+                intent.putExtra("session_num", sessionNum);
+                //  학생 이름 보내기 추가
+                startActivity(intent);
                 return;
             }
+
+            //      체크
             obj = quiz.get(quizStatus);
 
             Log.d("quizid", obj.optString("quizId"));
@@ -285,8 +296,10 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
             switch (obj.optString("makeType")) {
 
                 case "obj":
+
                     choice.setVisibility(View.VISIBLE);
                     choicePassage.setText(obj.optString("question"));
+
                     answer1.setText(obj.optString("right"));
                     answer2.setText(obj.optString("example1"));
                     answer3.setText(obj.optString("example2"));
@@ -295,6 +308,7 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
                     break;
 
                 case "sub":
+
                     essay.setVisibility(View.VISIBLE);
                     essayPassage.setText(obj.optString("question"));
 
@@ -309,6 +323,7 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
             answer1.setChecked(true);
 
             quizStatus++;
+            //      체크
         }
     }
 }

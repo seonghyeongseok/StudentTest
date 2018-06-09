@@ -222,8 +222,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 checkLogin = obj.optBoolean("check");
 
                 check = obj.optBoolean("loginCheck");
-                stdName = obj.optString("userName");
-                sessionNum = obj.optString("sessionId");
+
+                    stdName = obj.optString("userName");
+                    sessionNum = obj.optString("sessionId");
+                    Log.e("로긴", sessionNum);
+
 
             } catch (Exception e) {
 

@@ -25,7 +25,7 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
 
     private static final String ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
 
-    private String      sessionNum, roomNum = null;
+    private String      sessionNum, roomNum = null, stdName;
     private Button      button;
     private EditText    pinNum;
     private Socket      mSocket;
@@ -39,7 +39,9 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
 
         Intent getNum = getIntent();
         sessionNum = getNum.getStringExtra("session_num");
+        stdName = getNum.getStringExtra("student_name");
 
+        Log.e("로긴", sessionNum);
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
 
@@ -103,6 +105,7 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
                         }
 
                         intent.putExtra("session_num", sessionNum);
+                        intent.putExtra("student_name", stdName);
                         intent.putExtra("room_num", roomNum);
                         startActivity(intent);
 

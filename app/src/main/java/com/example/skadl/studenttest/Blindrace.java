@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -37,10 +38,11 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
     private Runnable        runnable;
 
     private Button          button, button2, button3, button4, submit, submit2;
-    private ImageView       imageView;
+    private ImageView       imageView, imageView2;
     private TextView        stdResult, stdRankAndPoint;
     private EditText        essay;
     private LinearLayout    choiceView, essayView, loadingView, midResultView;
+    private ConstraintLayout answerView;
 
     private String answerNum = "";
     private String sessionNum, nick, roomNum, rank, point, character, quizId, type, resultInfo, result;
@@ -54,6 +56,8 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
         essayView       = (LinearLayout)findViewById(R.id.essay_answer);
         loadingView     = (LinearLayout)findViewById(R.id.loading);
         midResultView   = (LinearLayout)findViewById(R.id.mid_result);
+
+        answerView      = (ConstraintLayout)findViewById(R.id.image_background);
 
         choiceView.setVisibility(View.GONE);
         essayView.setVisibility(View.GONE);
@@ -96,9 +100,10 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
         Intent getInfo = getIntent();
 
         imageView       = (ImageView)findViewById(R.id.character);
+        imageView2      = (ImageView)findViewById(R.id.answer_image);
 
-        stdResult       = (TextView) findViewById(R.id.result);
-        stdRankAndPoint = (TextView) findViewById(R.id.rank_point);
+        stdResult       = (TextView) findViewById(R.id.answer);
+ //       stdRankAndPoint = (TextView) findViewById(R.id.rank_point);
 
         character   = getInfo.getStringExtra("char");
         sessionNum  = getInfo.getStringExtra("session_num");
@@ -248,11 +253,18 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
 
                     }
 
+                    if(result.equals("O")){
+                        imageView2.setImageResource(getResources().getIdentifier(
+                                "correct", "drawable", "com.example.skadl.studenttest"));
+                        answerView.setBackgroundColor(Color.parseColor("#33adff"));
+                    }else if(result.equals("X")){
+                        imageView2.setImageResource(getResources().getIdentifier(
+                                "cross", "drawable", "com.example.skadl.studenttest"));
+                        answerView.setBackgroundColor(Color.parseColor("#ff3333"));
+                    }
 
-                    imageView.setImageResource(getResources().getIdentifier(
-                            "char"+character, "drawable", "com.example.skadl.studenttest"));
                     stdResult.setText(result);
-                    stdRankAndPoint.setText(Integer.parseInt(point) * 100 + "점 " + rank + "등");
+//                    stdRankAndPoint.setText(Integer.parseInt(point) * 100 + "점 " + rank + "등");
                 }
             });
         }

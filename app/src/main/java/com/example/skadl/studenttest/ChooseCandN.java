@@ -31,7 +31,7 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
     private EditText    nickname;
     private ImageButton chara[] = new ImageButton[9];
 
-    private String sessionNum, character, roomNum;
+    private String sessionNum, character, roomNum, stdName;
     private int id[] = new int[9];
 
 
@@ -45,6 +45,7 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
         Intent getNum = getIntent();
 
         sessionNum  = getNum.getStringExtra("session_num");
+        stdName     = getNum.getStringExtra("student_name");
         roomNum     = getNum.getStringExtra("room_num");
 
         button = (Button) findViewById(R.id.find);
@@ -106,6 +107,7 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
 
                             Intent intent = new Intent(ChooseCandN.this, Blindrace.class);
                             intent.putExtra("session_num", sessionNum);
+                            intent.putExtra("student_name", stdName);
                             intent.putExtra("Nick_name", nick);
                             intent.putExtra("room_num", roomNum);
                             intent.putExtra("char", character);

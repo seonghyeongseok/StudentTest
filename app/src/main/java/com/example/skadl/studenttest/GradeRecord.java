@@ -82,7 +82,7 @@ public class GradeRecord extends AppCompatActivity implements View.OnClickListen
             JSONObject value = new JSONObject(returnValue);
 
             Boolean check = value.optBoolean("check");
-            JSONArray list = value.optJSONArray("groups");
+            JSONArray list = value.optJSONArray("races");
 
             for(int i = 0 ; i < list.length() ; i++){
                 JSONObject gradeInfo = list.getJSONObject(i);
@@ -95,16 +95,35 @@ public class GradeRecord extends AppCompatActivity implements View.OnClickListen
                 String retestState = gradeInfo.optString("retestState");
                 String noteState = gradeInfo.optString("wrongState");
 
-                if(retestState.equals("claer")){
-
+                if(retestState.equals("clear")){
+                    retestState = "응시완료";
+                }else if(retestState.equals("not")){
+                    retestState = " ";
+                }else if(retestState.equals("order")){
+                    retestState = "미응시";
                 }
+
+                if(noteState.equals("clear")){
+                    noteState = "제출완료";
+                }else if(noteState.equals("not")){
+                    noteState = " ";
+                }else if(noteState.equals("order")){
+                    noteState = "미제출";
+                }
+
+                float allCount = Integer.parseInt(gradeInfo.optString("allCount"));
+                float rightCount = Integer.parseInt(gradeInfo.optString("allRightCount"));
+
+                Log.e("전체 문제", String.valueOf(allCount));
+                Log.e("맞춘 문제", String.valueOf(rightCount));
+                Log.e("점수", String.valueOf(rightCount/allCount*100));
 
                 grade.date = month + " / " + day;
                 grade.quizName = gradeInfo.optString("listName");
-                grade.grade = gradeInfo.optString("wrongStateCount");
-                grade.retest = gradeInfo.optString("groupId");
-                grade.note = gradeInfo.optString("groupId");
-                
+                grade.grade = String.valueOf(Math.round(rightCount/allCount*100));
+                grade.retest = retestState;
+                grade.note = noteState;
+
                 gradeList.add(grade);
                 grade.onClickListener = this;
             }
