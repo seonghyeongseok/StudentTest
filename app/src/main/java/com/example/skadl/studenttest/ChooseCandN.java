@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,7 @@ import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 /**
  * Created by skadl on 2018-03-08.
@@ -26,14 +28,14 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
     public static final String ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
 
     private Socket      mSocket;
-
     private Button      button;
     private EditText    nickname;
     private ImageButton chara[] = new ImageButton[9];
 
     private String sessionNum, character, roomNum, stdName;
     private int id[] = new int[9];
-
+    private String character_info;
+    private String[] choosedcharacters = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +44,21 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        Intent getNum = getIntent();
+            Intent getNum = getIntent();
+
+            sessionNum  = getNum.getStringExtra("session_num");
+            roomNum     = getNum.getStringExtra("room_num");
+            character_info = getNum.getStringExtra("character_Info");
+
+
+
+            if(character_info.length() > 2)
+                choosedcharacters = character_info.split(",");
+            else if(character_info.length() == 1 ) {
+                choosedcharacters = new String[1];
+            choosedcharacters[0] = character_info;
+        }
+
 
         sessionNum  = getNum.getStringExtra("session_num");
         stdName     = getNum.getStringExtra("student_name");
@@ -60,8 +76,19 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
 
             chara[i] = (ImageButton) findViewById(id[i]);
             chara[i].setOnClickListener(this);
-            chara[i].setBackgroundColor(Color.BLUE);
+            chara[i].setBackgroundColor(Color.parseColor("#00000000"));
 
+        }
+
+        if(choosedcharacters != null) {
+            for (int i = 0; i < choosedcharacters.length; i++) {
+                int choosedNumber;
+                choosedNumber = Integer.parseInt(choosedcharacters[i]);
+
+                chara[choosedNumber - 1].setEnabled(false);
+                chara[choosedNumber - 1].setBackgroundResource(R.drawable.selected);
+
+            }
         }
 
         try {
@@ -113,6 +140,7 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
                             intent.putExtra("char", character);
 
                             startActivity(intent);
+                            finish();
                         }
                     }
                 }
@@ -125,7 +153,7 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
         for(int i = 0 ; i < chara.length ; i++){
 
             if(id[i] == view.getId()){
-                chara[i].setBackgroundColor(Color.RED);
+                chara[i].setBackgroundColor(Color.parseColor("#64FFDA"));
                 character = String.valueOf(i+1);
             }else if(R.id.find == view.getId()){
 
@@ -145,9 +173,8 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
 
                 break;
             }else{
-                chara[i].setBackgroundColor(Color.BLUE);
+                chara[i].setBackgroundColor(Color.parseColor("#00000000"));
             }
-
         }
     }
 }

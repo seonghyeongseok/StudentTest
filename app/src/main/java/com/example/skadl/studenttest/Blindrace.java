@@ -323,6 +323,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
                     intent.putExtra("char", character);
                     intent.putExtra("point", point);
                     startActivity(intent);
+
                 }
             });
         }
@@ -406,6 +407,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mSocket.emit("leaveRoom",roomNum,sessionNum);
+        mSocket.emit("leaveRoom", roomNum, sessionNum);
+        finish();
     }
 }
