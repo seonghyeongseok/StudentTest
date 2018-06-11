@@ -95,6 +95,7 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
 
             mSocket = IO.socket(ServerIP);
             mSocket.on("android_enter_room", enter_check);
+            mSocket.on("enable_character",enable_character);
             mSocket.connect();
 
         } catch (URISyntaxException e) {
@@ -143,6 +144,22 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
                             finish();
                         }
                     }
+                }
+            });
+        }
+    };
+
+    private Emitter.Listener enable_character = new Emitter.Listener() {
+        @Override
+        public void call(final Object... arg0) {
+            ChooseCandN.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    String enable_num = arg0[0].toString();
+                        int selected_chara_num = Integer.parseInt(enable_num) - 1;
+                        chara[selected_chara_num].setEnabled(true);
+
                 }
             });
         }
