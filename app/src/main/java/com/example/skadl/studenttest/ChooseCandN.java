@@ -27,9 +27,9 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
 
     public static final String ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
 
-    private Socket      mSocket;
-    private Button      button;
-    private EditText    nickname;
+    private Socket mSocket;
+    private Button button;
+    private EditText nickname;
     private ImageButton chara[] = new ImageButton[9];
 
     private String sessionNum, character, roomNum, stdName;
@@ -44,25 +44,23 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-            Intent getNum = getIntent();
+        Intent getNum = getIntent();
 
-            sessionNum  = getNum.getStringExtra("session_num");
-            roomNum     = getNum.getStringExtra("room_num");
-            character_info = getNum.getStringExtra("character_Info");
+        sessionNum = getNum.getStringExtra("session_num");
+        roomNum = getNum.getStringExtra("room_num");
+        character_info = getNum.getStringExtra("character_Info");
 
-
-
-            if(character_info.length() > 2)
-                choosedcharacters = character_info.split(",");
-            else if(character_info.length() == 1 ) {
-                choosedcharacters = new String[1];
+        if (character_info.length() > 2)
+            choosedcharacters = character_info.split(",");
+        else if (character_info.length() == 1) {
+            choosedcharacters = new String[1];
             choosedcharacters[0] = character_info;
         }
 
 
-        sessionNum  = getNum.getStringExtra("session_num");
-        stdName     = getNum.getStringExtra("student_name");
-        roomNum     = getNum.getStringExtra("room_num");
+        sessionNum = getNum.getStringExtra("session_num");
+        stdName = getNum.getStringExtra("student_name");
+        roomNum = getNum.getStringExtra("room_num");
 
         button = (Button) findViewById(R.id.find);
         button.setOnClickListener(this);
@@ -80,7 +78,7 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
 
         }
 
-        if(choosedcharacters != null) {
+        if (choosedcharacters != null) {
             for (int i = 0; i < choosedcharacters.length; i++) {
                 int choosedNumber;
                 choosedNumber = Integer.parseInt(choosedcharacters[i]);
@@ -150,12 +148,12 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
 
     public void onClick(View view) {
 
-        for(int i = 0 ; i < chara.length ; i++){
+        for (int i = 0; i < chara.length; i++) {
 
-            if(id[i] == view.getId()){
+            if (id[i] == view.getId()) {
                 chara[i].setBackgroundColor(Color.parseColor("#64FFDA"));
-                character = String.valueOf(i+1);
-            }else if(R.id.find == view.getId()){
+                character = String.valueOf(i + 1);
+            } else if (R.id.find == view.getId()) {
 
                 //button.setText(character + nickname.getText().toString());
 
@@ -172,7 +170,7 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
                 mSocket.emit("user_in", roomNum, nick, sessionNum, character);
 
                 break;
-            }else{
+            } else {
                 chara[i].setBackgroundColor(Color.parseColor("#00000000"));
             }
         }

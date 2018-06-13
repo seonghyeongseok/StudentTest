@@ -9,11 +9,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -38,26 +41,27 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
     private Runnable        runnable;
 
     private Button          button, button2, button3, button4, submit, submit2;
-    private ImageView       imageView, imageView2;
-    private TextView        stdResult, stdRankAndPoint;
+    private ImageView       userImage, imageView2;
+    private TextView        stdResult, stdResult2;
     private EditText        essay;
     private LinearLayout    choiceView, essayView, loadingView, midResultView;
-    private ConstraintLayout answerView;
+    private RelativeLayout  answerView;
 
-    private String answerNum = "";
-    private String sessionNum, nick, roomNum, rank, point, character, quizId, type, resultInfo, result;
+    private String answerNum = null;
+    private String sessionNum, nick, roomNum, point, character, quizId, type, resultInfo, answerCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.race_main);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         choiceView      = (LinearLayout)findViewById(R.id.choice_answer);
         essayView       = (LinearLayout)findViewById(R.id.essay_answer);
         loadingView     = (LinearLayout)findViewById(R.id.loading);
         midResultView   = (LinearLayout)findViewById(R.id.mid_result);
 
-        answerView      = (ConstraintLayout)findViewById(R.id.image_background);
+        answerView      = (RelativeLayout)findViewById(R.id.image_background);
 
         choiceView.setVisibility(View.GONE);
         essayView.setVisibility(View.GONE);
@@ -75,7 +79,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
 
             mSocket.on("timer", timer);
 
-            mSocket.on("android_mid_result", midresult);
+            mSocket.on("android_mid_result", midResult);
             //  중간결과 ( roomPin , quizId , makeType , ranking)
             // => 핀, 답에보낼퀴즈Id , 다음문제퀴즈유형 , 현재까지 전체랭킹select*값
             // ranking은 json 배열이며 여기서 반복문을 돌려 if([i].sessionId = sessionId) [i].answer
@@ -84,9 +88,11 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
             mSocket.on("android_next_quiz", nextQuiz);
             //  다음 퀴즈로 넘어갈 때 사용되는 소켓함수 인자값은 없음 추후에 필요할 경우에 추가할 예정
 
-            mSocket.on("race_ending", raceEnding);
+            mSocket.on("race_result", raceEnding);
             // 레이스가 끝날경우 실행되는 함수 중간결과에서 받는것과 같은 양식으로 인자값을
             // 줄예정이며 사용하는 방법은 동일함
+
+            mSocket.on("race_mid_correct", result);
             mSocket.connect();
 
         }
@@ -99,11 +105,11 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
 
         Intent getInfo = getIntent();
 
-        imageView       = (ImageView)findViewById(R.id.character);
+        userImage       = (ImageView)findViewById(R.id.character);
         imageView2      = (ImageView)findViewById(R.id.answer_image);
 
-        stdResult       = (TextView) findViewById(R.id.answer);
- //       stdRankAndPoint = (TextView) findViewById(R.id.rank_point);
+        stdResult       = (TextView) findViewById(R.id.result);
+        stdResult2      = (TextView) findViewById(R.id.point);
 
         character   = getInfo.getStringExtra("char");
         sessionNum  = getInfo.getStringExtra("session_num");
@@ -131,6 +137,21 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
         submit.setOnClickListener(this);
 
     }
+
+    private Emitter.Listener result = new Emitter.Listener() {
+        @Override
+        public void call(final Object... arg0) {
+            Blindrace.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                   stdResult.setText(arg0[0].toString());
+                }
+            });
+        }
+    };
+
+
 
     private Emitter.Listener timer = new Emitter.Listener() {
         @Override
@@ -201,7 +222,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
         }
     };
 
-    private Emitter.Listener midresult = new Emitter.Listener() {
+    private Emitter.Listener midResult = new Emitter.Listener() {
         @Override
         public void call(final Object... arg0) {
             Blindrace.this.runOnUiThread(new Runnable() {
@@ -233,14 +254,14 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
                             if (sessionNum.equals(temp)) {
 
                                 point = obj.optString("rightCount");
+                                // 맞는 개수
 
                                 if (point == null) {
                                     point = "0";
                                 }
 
-                                rank = String.valueOf(i+1);
-
-                                result = obj.optString("answer");
+                                answerCheck = obj.optString("answerCheck");
+                                Log.e("췤", answerCheck);
 
                             }
                         }
@@ -253,18 +274,21 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
 
                     }
 
-                    if(result.equals("O")){
+                    if(answerCheck.equals("O")){
                         imageView2.setImageResource(getResources().getIdentifier(
                                 "correct", "drawable", "com.example.skadl.studenttest"));
+                        stdResult.setTextColor(Color.parseColor("#33adff"));
                         answerView.setBackgroundColor(Color.parseColor("#33adff"));
-                    }else if(result.equals("X")){
+                    }else if(answerCheck.equals("X")){
                         imageView2.setImageResource(getResources().getIdentifier(
                                 "cross", "drawable", "com.example.skadl.studenttest"));
+                        stdResult.setTextColor(Color.parseColor("#ff3333"));
                         answerView.setBackgroundColor(Color.parseColor("#ff3333"));
                     }
 
-                    stdResult.setText(result);
-//                    stdRankAndPoint.setText(Integer.parseInt(point) * 100 + "점 " + rank + "등");
+                    stdResult2.setText(Integer.parseInt(point) * 100 + "점");
+                    userImage.setImageResource(getResources().getIdentifier(
+                            "char"+character, "drawable", "com.example.skadl.studenttest"));
                 }
             });
         }
@@ -314,14 +338,15 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
             Blindrace.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+
+                    String finalResult = arg0[0].toString();
+
                     Intent intent = new Intent(Blindrace.this, FinalResult.class);
 
                     intent.putExtra("session_num", sessionNum);
                     intent.putExtra("Nick_name", nick);
-                    intent.putExtra("Room_num", roomNum);
-                    //intent.putExtra("rank", rank);
                     intent.putExtra("char", character);
-                    intent.putExtra("point", point);
+                    intent.putExtra("result", finalResult);
                     startActivity(intent);
 
                 }
@@ -370,23 +395,30 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
         }
         else if(R.id.submit2 == view.getId()){
 
+            answerNum = essay.getText().toString();
+
+            if(answerNum.equals("")){
+                Toast.makeText(getApplicationContext(), "답을 입력 해 주세요 !", Toast.LENGTH_LONG).show();
+                return;
+            }
+
             midResultView.setVisibility(View.GONE);
             essayView.setVisibility(View.GONE);
             choiceView.setVisibility(View.GONE);
             loadingView.setVisibility(View.VISIBLE);
 
-            answerNum = essay.getText().toString();
-            essay.setText("");
-
-            if(answerNum == null){
-
-                return;
-            }
-
             mSocket.emit("answer", roomNum , answerNum, sessionNum, nick, quizId);
+            answerNum = null;
+            essay.setText("");
 
         }
         else if(R.id.submit == view.getId()){
+
+            if(answerNum == null){
+
+                Toast.makeText(getApplicationContext(), "답을 골라 주세요 !", Toast.LENGTH_LONG).show();
+                return;
+            }
 
             midResultView.setVisibility(View.GONE);
             essayView.setVisibility(View.GONE);
@@ -399,7 +431,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
             button4.setBackgroundColor(Color.parseColor("#e84c3d"));
 
             mSocket.emit("answer", roomNum , answerNum, sessionNum, nick, quizId);
-            essay.setText("");
+            answerNum = null;
 
         }
     }
@@ -408,6 +440,23 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
     protected void onDestroy() {
         super.onDestroy();
         mSocket.emit("leaveRoom", roomNum, sessionNum);
+
+        Log.e("destroy", "destroy");
+
         finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.e("pause", "pause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Log.e("stop", "stop");
     }
 }

@@ -1,11 +1,14 @@
 package com.example.skadl.studenttest;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 import java.util.concurrent.ExecutionException;
@@ -81,18 +84,40 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
+    public void onBackPressed(){
 
-        Log.e("스탑", "스탑");
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setMessage("종료하시겠습니까?");
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                moveTaskToBack(true);
+
+                finish();
+
+                android.os.Process.killProcess(android.os.Process.myPid());
+
+            }
+        });
+        alert.show();
     }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        String params;
+       /* String params;
 
         params = "sessionId=" + sessionNum;
 
@@ -110,7 +135,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
             e.printStackTrace();
 
         }
-
+*/
     }
 }
 

@@ -31,7 +31,6 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
     private Socket      mSocket;
     private String      character_info = null;
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.find_room);
