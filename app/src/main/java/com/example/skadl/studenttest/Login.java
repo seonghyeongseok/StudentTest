@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -33,12 +34,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         final Context context = this;
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
         w_ID = (EditText) findViewById(R.id.userid);
         w_PW = (EditText) findViewById(R.id.password);
         login = (Button) findViewById(R.id.login);
 
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
         mySession = pref.getString("session_id", "");
+        stdName   = pref.getString("std_name", "");
 
         Intent intent = new Intent(Login.this, Main.class);
         Log.e("session", mySession);
@@ -52,7 +57,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
 
         login.setOnClickListener(this);
-
 
     }
 
@@ -193,10 +197,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             editor.putString("session_id", sessionNum);
+            editor.putString("std_name", stdName);
 
             Intent intent = new Intent(Login.this, Main.class);
             intent.putExtra("session_num", sessionNum);
             intent.putExtra("Student_name", stdName);
+            Log.e("name", stdName);
             editor.commit();
             startActivity(intent);
 

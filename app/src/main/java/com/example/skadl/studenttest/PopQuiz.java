@@ -1,9 +1,12 @@
 package com.example.skadl.studenttest;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -36,8 +39,6 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
 
     private Socket          mSocket;
 
-    private Runnable        runnable;
-
     private ArrayList<JSONObject> quiz = new ArrayList<>();
     private JSONObject obj;
 
@@ -57,12 +58,17 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
     private int         timerValue = 0;
     private Boolean     starting = true;
 
-    private String roomNum, sessionNum, quizId, stdName;
+    private String roomNum, sessionNum, stdName, allStatus;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pop_quiz);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.action_bar);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
 
         Intent getInfo = getIntent();
 
@@ -74,7 +80,6 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
         essay = (LinearLayout) findViewById(R.id.essay_view);
         choice = (LinearLayout) findViewById(R.id.choice_view);
         loading = (LinearLayout) findViewById(R.id.loading);
-        quizView = (LinearLayout) findViewById(R.id.quiz);
 
         status = (TextView) findViewById(R.id.status);
         quizName = (TextView) findViewById(R.id.quiz_name);
@@ -95,8 +100,6 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
         send = (Button) findViewById(R.id.send);
         send.setOnClickListener(this);
 
-        quizView.setVisibility(View.GONE);
-
         essay.setVisibility(View.GONE);
         choice.setVisibility(View.GONE);
 
@@ -105,144 +108,16 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
             mSocket = IO.socket(ServerIP);
             //mSocket.on("popQuiz_Info", quizInfo);
             mSocket.on("pop_quiz_start", quizStart);
-            mSocket.on("re_join_pop_quiz", reStart);
+            //mSocket.on("re_join_pop_quiz", reStart);
+
+            mSocket.on("pop_timer", time);
             mSocket.connect();
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
-        status.setText(quizStatus+"/"+numberOfQuiz);
     }
-
-    /*private Emitter.Listener quizInfo = new Emitter.Listener() {
-        @Override
-        public void call(final Object... arg0) {
-            PopQuiz.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    String quizInfo = arg0[0].toString();
-                    String quizname = arg0[1].toString();
-
-                    quizName.setText(quizname);
-
-                    Log.d("quizInfo",quizInfo);
-                    Log.d("quiz", "ASDF");
-
-                    try
-                    {
-
-                        JSONArray array = new JSONArray(quizInfo);
-
-                        numberOfQuiz = array.length();
-
-                        for(int i = 0 ; i < numberOfQuiz ; i++) {
-
-                            JSONObject obj = array.getJSONObject(i);
-
-                            quiz.add(obj);
-                        }
-
-                        Collections.shuffle(quiz);
-
-                    }
-                    catch (Exception e)
-                    {
-
-                        e.printStackTrace();
-
-                    }
-                }
-            });
-        }
-    };*/
-
-    private Emitter.Listener reStart = new Emitter.Listener() {
-        @Override
-        public void call(final Object... arg0) {
-            PopQuiz.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    String quizInfo = arg0[0].toString();
-                    String quizname = arg0[1].toString();
-                    String checkSession = arg0[2].toString();
-
-                    if(checkSession != sessionNum){
-                        return;
-                    }
-
-                    starting = false;
-
-                    loading.setVisibility(View.GONE);
-                    quizView.setVisibility(View.VISIBLE);
-
-                    quizName.setText(quizname);
-
-                    Log.d("quizInfo",quizInfo);
-                    Log.d("quiz", "ASDF");
-
-                    try
-                    {
-
-                        JSONArray array = new JSONArray(quizInfo);
-
-                        numberOfQuiz = array.length();
-
-                        for(int i = 0 ; i < numberOfQuiz ; i++) {
-
-                            JSONObject obj = array.getJSONObject(i);
-
-                            quiz.add(obj);
-                        }
-
-                        Collections.shuffle(quiz);
-
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-
-
-                    obj = quiz.get(0);
-
-                    Log.d("quizid", obj.optString("quizId"));
-                    Log.d("문제", obj.optString("question"));
-                    Log.d("정답", obj.optString("right"));
-                    Log.d("답1", obj.optString("example1"));
-                    Log.d("답2", obj.optString("example2"));
-                    Log.d("답3", obj.optString("example3"));
-
-                    switch (obj.optString("makeType")) {
-
-                        case "sub":
-                            essay.setVisibility(View.VISIBLE);
-                            essayPassage.setText(obj.optString("question"));
-
-                            break;
-
-                        case "obj":
-                            choice.setVisibility(View.VISIBLE);
-                            choicePassage.setText(obj.optString("question"));
-                            answer1.setText(obj.optString("right"));
-                            answer2.setText(obj.optString("example1"));
-                            answer3.setText(obj.optString("example2"));
-                            answer4.setText(obj.optString("example3"));
-                            break;
-
-                        default:
-                            break;
-
-                    }
-
-                    mHandler.sendEmptyMessage(0);
-                }
-            });
-        }
-    };
-
 
     private Emitter.Listener quizStart = new Emitter.Listener() {
         @Override
@@ -251,18 +126,31 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
                 @Override
                 public void run() {
 
-                    starting = true;
+                    starting = false;
 
                     loading.setVisibility(View.GONE);
-                    quizView.setVisibility(View.VISIBLE);
 
                     String quizInfo = arg0[0].toString();
                     String quizname = arg0[1].toString();
+                    String checkSession = arg0[2].toString();
+                    allStatus = arg0[3].toString();
 
+                    Log.e("총 문제 수~", allStatus);
+                    Log.e("시작?", "응 재시작");
+                    Log.e("체크세션", checkSession);
+                    Log.e("내 세션", sessionNum);
+
+                    if(checkSession.equals("X")){
+
+                    }else if(!checkSession.equals(sessionNum)){
+                        return;
+                    }
+
+                    Log.e("재시작", "실행됨~");
                     quizName.setText(quizname);
+                    Log.e("quizName", quizname);
 
-                    Log.d("quizInfo",quizInfo);
-                    Log.d("quiz", "ASDF");
+                    Log.d("quizInfo", quizInfo);
 
                     try
                     {
@@ -279,6 +167,8 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
                         }
 
                         Collections.shuffle(quiz);
+
+                        status.setText(quizStatus + " / " + numberOfQuiz);
 
                     }
                     catch (Exception e)
@@ -317,8 +207,21 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
                             break;
 
                     }
-
                     mHandler.sendEmptyMessage(0);
+                }
+            });
+        }
+    };
+
+    private Emitter.Listener time = new Emitter.Listener() {
+        @Override
+        public void call(final Object... arg0) {
+            PopQuiz.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    timerValue = Integer.valueOf(arg0[0].toString());
+
                 }
             });
         }
@@ -340,9 +243,8 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
 
         if(view.getId() == R.id.send){
 
-
             //      체크
-            status.setText(quizStatus+1+"/"+numberOfQuiz);
+            status.setText(quizStatus+1+" / "+numberOfQuiz);
 
             String answer = null;
 
@@ -365,7 +267,7 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
 
             if(quizStatus == numberOfQuiz) {
                 //  실행 안됬어영
-                mSocket.emit("pop_quiz_status", "끝났슈~", roomNum);
+                mSocket.emit("pop_quiz_status", roomNum, sessionNum);
 
                 Intent intent = new Intent(PopQuiz.this, Main.class);
                 intent.putExtra("session_num", sessionNum);
@@ -423,7 +325,33 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        alert.setMessage("종료하시겠습니까?");
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                onBackPressed();
+
+            }
+        });
+        alert.show();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
     }
 
     @Override
@@ -433,9 +361,10 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
         if(starting) {
 
             mSocket.emit("leaveRoom", roomNum, sessionNum);
-            finish();
 
         }else{
+
+
 
         }
     }

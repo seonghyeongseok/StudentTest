@@ -28,8 +28,8 @@ public class FinalResult extends AppCompatActivity{
     private Socket      mSocket;
 
     private ImageView   imageView;
-    private TextView    text1, text2, text3;
-    private String      sessionNum, nick, character;
+    private TextView    nickName, point, resultView;
+    private String      sessionNum, nick, character, result;
     private String      finalResult = null;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +41,9 @@ public class FinalResult extends AppCompatActivity{
 
         imageView   = (ImageView)findViewById(R.id.character);
 
-        text1       = (TextView) findViewById(R.id.point);
-        text2       = (TextView) findViewById(R.id.rank);
-        text3       = (TextView) findViewById(R.id.nick);
+        nickName       = (TextView) findViewById(R.id.nick);
+        point       = (TextView) findViewById(R.id.point);
+        resultView       = (TextView) findViewById(R.id.result);
 
         Intent getInfo = getIntent();
 
@@ -61,18 +61,27 @@ public class FinalResult extends AppCompatActivity{
             for(int i = 0 ; i < result.length() ; i++){
                 JSONObject studentResult = result.getJSONObject(i);
 
-                String nick = studentResult.optString("nick");
                 String character = studentResult.optString("characterId");
+                String score = studentResult.optString("score");
                 Boolean pass = studentResult.optBoolean("retestState");
 
+                imageView.setImageResource(getResources().getIdentifier(
+                        "char"+character, "drawable", this.getPackageName()));
+
+                nickName.setText(nick);
+                point.setText(score);
+
+                if(pass){
+                    resultView.setText("합격");
+                }else
+                    resultView.setText("불 합격");
             }
 
         }catch (Exception e){
 
         }
 
-        imageView.setImageResource(getResources().getIdentifier(
-                "char"+character, "drawable", this.getPackageName()));
+
 
     }
 }

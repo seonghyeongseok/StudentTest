@@ -360,37 +360,37 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
         if(R.id.button1 == view.getId()){
 
             answerNum = "1";
-            button.setBackgroundColor(Color.WHITE);
-            button2.setBackgroundColor(Color.parseColor("#3598db"));
-            button3.setBackgroundColor(Color.parseColor("#f1c40f"));
-            button4.setBackgroundColor(Color.parseColor("#e84c3d"));
+            button.setBackgroundResource(R.drawable.selected1);
+            button2.setBackgroundResource(R.drawable.number2);
+            button3.setBackgroundResource(R.drawable.number3);
+            button4.setBackgroundResource(R.drawable.number4);
 
         }
         else if(R.id.button2 == view.getId()){
 
             answerNum = "2";
-            button2.setBackgroundColor(Color.WHITE);
-            button.setBackgroundColor(Color.parseColor("#1bbc9b"));
-            button3.setBackgroundColor(Color.parseColor("#f1c40f"));
-            button4.setBackgroundColor(Color.parseColor("#e84c3d"));
+            button2.setBackgroundResource(R.drawable.selected2);
+            button.setBackgroundResource(R.drawable.button);
+            button3.setBackgroundResource(R.drawable.number3);
+            button4.setBackgroundResource(R.drawable.number4);
 
         }
         else if(R.id.button3 == view.getId()){
 
             answerNum = "3";
-            button3.setBackgroundColor(Color.WHITE);
-            button2.setBackgroundColor(Color.parseColor("#3598db"));
-            button.setBackgroundColor(Color.parseColor("#1bbc9b"));
-            button4.setBackgroundColor(Color.parseColor("#e84c3d"));
+            button3.setBackgroundResource(R.drawable.selected3);
+            button.setBackgroundResource(R.drawable.button);
+            button2.setBackgroundResource(R.drawable.number2);
+            button4.setBackgroundResource(R.drawable.number4);
 
         }
         else if(R.id.button4 == view.getId()){
 
             answerNum = "4";
-            button4.setBackgroundColor(Color.WHITE);
-            button2.setBackgroundColor(Color.parseColor("#3598db"));
-            button3.setBackgroundColor(Color.parseColor("#f1c40f"));
-            button.setBackgroundColor(Color.parseColor("#1bbc9b"));
+            button4.setBackgroundResource(R.drawable.selected4);
+            button.setBackgroundResource(R.drawable.button);
+            button2.setBackgroundResource(R.drawable.number2);
+            button3.setBackgroundResource(R.drawable.number3);
 
         }
         else if(R.id.submit2 == view.getId()){
@@ -425,10 +425,10 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
             choiceView.setVisibility(View.GONE);
             loadingView.setVisibility(View.VISIBLE);
 
-            button.setBackgroundColor(Color.parseColor("#1bbc9b"));
-            button2.setBackgroundColor(Color.parseColor("#3598db"));
-            button3.setBackgroundColor(Color.parseColor("#f1c40f"));
-            button4.setBackgroundColor(Color.parseColor("#e84c3d"));
+            button.setBackgroundResource(R.drawable.button);
+            button2.setBackgroundResource(R.drawable.number2);
+            button3.setBackgroundResource(R.drawable.number3);
+            button4.setBackgroundResource(R.drawable.number4);
 
             mSocket.emit("answer", roomNum , answerNum, sessionNum, nick, quizId);
             answerNum = null;

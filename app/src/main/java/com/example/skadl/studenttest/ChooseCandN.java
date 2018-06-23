@@ -42,7 +42,9 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.choose_char_nick);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        actionBar.setCustomView(R.layout.action_bar);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
 
         Intent getNum = getIntent();
 

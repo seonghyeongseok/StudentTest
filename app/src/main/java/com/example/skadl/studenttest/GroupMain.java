@@ -68,21 +68,31 @@ public class GroupMain extends AppCompatActivity implements View.OnClickListener
 
             JSONObject value = new JSONObject(returnValue);
 
+            Log.e("value", returnValue);
+
             Boolean check = value.optBoolean("check");
-            JSONArray list = value.optJSONArray("groups");
 
-            for(int i = 0 ; i < list.length() ; i++){
-                JSONObject groupInfo = list.getJSONObject(i);
+            try {
 
-                MyGroupItem groupList = new MyGroupItem();
+                JSONArray list = value.optJSONArray("groups");
+                Log.e("groupList", list.toString());
 
-                groupList.className = groupInfo.optString("groupName");
-                groupList.retestState = groupInfo.optString("retestStateCount");
-                groupList.noteState = groupInfo.optString("wrongStateCount");
-                groupList.classId = groupInfo.optString("groupId");
+                for(int i = 0 ; i < list.length() ; i++){
+                    JSONObject groupInfo = list.getJSONObject(i);
 
-                classList.add(groupList);
-                groupList.onClickListener = this;
+                    MyGroupItem groupList = new MyGroupItem();
+
+                    groupList.className = groupInfo.optString("groupName");
+                    groupList.retestState = groupInfo.optString("retestStateCount");
+                    groupList.noteState = groupInfo.optString("wrongStateCount");
+                    groupList.classId = groupInfo.optString("groupId");
+
+                    classList.add(groupList);
+                    groupList.onClickListener = this;
+                }
+
+            }catch (Exception e){
+
             }
 
         } catch (Exception e) {

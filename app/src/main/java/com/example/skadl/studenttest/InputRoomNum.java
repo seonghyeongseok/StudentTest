@@ -98,6 +98,7 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
                             case "race":
 
                                 intent = new Intent(InputRoomNum.this, ChooseCandN.class);
+                                intent.putExtra("character_Info", character_info);
                                 break;
 
                             case "popQuiz":
@@ -112,9 +113,9 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
                         }
 
                         intent.putExtra("session_num", sessionNum);
+                        Log.e("입력 내 세션", sessionNum);
                         intent.putExtra("student_name", stdName);
                         intent.putExtra("room_num", roomNum);
-                        intent.putExtra("character_Info", character_info);
 
                         startActivity(intent);
 

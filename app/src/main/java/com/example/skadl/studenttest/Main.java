@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.util.concurrent.ExecutionException;
 
@@ -22,6 +23,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
     private final String IP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com/mobileLogout";
 
     private ImageButton admission, record, feedback;
+    private TextView    nameView;
     private String      sessionNum, stdName;
     private String      returnValue;
 
@@ -29,10 +31,19 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_main);
 
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.action_bar);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+
         Intent getInfo = getIntent();
 
         sessionNum = getInfo.getStringExtra("session_num");
         stdName = getInfo.getStringExtra("Student_name");
+
+        nameView = (TextView)findViewById(R.id.std_name);
+        nameView.setText(stdName + "님 환영합니다");
 
         Log.e("main", sessionNum);
 
@@ -76,10 +87,30 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         else if(view.getId() == R.id.feedback)
         {
             //  질문하기
-            intent = new Intent(Main.this, Feedback.class);
+            /*intent = new Intent(Main.this, Feedback.class);
             intent.putExtra("session_num", sessionNum);
             intent.putExtra("student_name", stdName);
-            startActivity(intent);
+            startActivity(intent);*/
+
+            String params = null;
+
+            params = "sessionId=" + sessionNum;
+
+            try {
+
+                returnValue = new MyAsyncTask(IP).execute(params).get();
+                Log.e("aaa", returnValue);
+                super.onBackPressed();
+
+            } catch (InterruptedException e) {
+
+                e.printStackTrace();
+
+            } catch (ExecutionException e) {
+
+                e.printStackTrace();
+
+            }
 
         }
     }
