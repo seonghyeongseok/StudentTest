@@ -43,7 +43,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
         stdName = getInfo.getStringExtra("Student_name");
 
         nameView = (TextView)findViewById(R.id.std_name);
-        nameView.setText(stdName + "님 환영합니다");
+        nameView.setText(stdName);
 
         Log.e("main", sessionNum);
 
@@ -82,6 +82,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
             intent.putExtra("session_num", sessionNum);
             intent.putExtra("student_name", stdName);
             startActivity(intent);
+            finish();
 
         }
         else if(view.getId() == R.id.feedback)

@@ -118,11 +118,11 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
                         intent.putExtra("room_num", roomNum);
 
                         startActivity(intent);
-
+                        finish();
                     }
                     else if(checkSessionNum.equals(sessionNum)){
 
-                        Toast.makeText(getApplicationContext(), "제대로입력해주십셔~", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "제대로입력해주십셔~", Toast.LENGTH_SHORT).show();
                         Log.d("4", String.valueOf(check));
                         Log.d("5", checkSessionNum);
                         Log.d("6", sessionNum);

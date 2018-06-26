@@ -13,9 +13,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.nkzawa.emitter.Emitter;
@@ -42,7 +44,7 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
     private ArrayList<JSONObject> quiz = new ArrayList<>();
     private JSONObject obj;
 
-    private LinearLayout    quizView, loading, essay, choice;
+    private LinearLayout    loading, choice, essay;
     private TextView        status, quizName, timer;
 
     private TextView        essayPassage, choicePassage;
@@ -51,7 +53,7 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
     private RadioGroup      choiceAnswer;
     private RadioButton     answer1, answer2, answer3, answer4;
 
-    private Button          send;
+    private ImageButton send;
 
     private int         numberOfQuiz;
     private int         quizStatus = 1;
@@ -97,7 +99,7 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
         answer3 = (RadioButton) findViewById(R.id.answer3);
         answer4 = (RadioButton) findViewById(R.id.answer4);
 
-        send = (Button) findViewById(R.id.send);
+        send = (ImageButton) findViewById(R.id.send);
         send.setOnClickListener(this);
 
         essay.setVisibility(View.GONE);
@@ -271,8 +273,10 @@ public class PopQuiz extends AppCompatActivity implements View.OnClickListener{
 
                 Intent intent = new Intent(PopQuiz.this, Main.class);
                 intent.putExtra("session_num", sessionNum);
+                intent.putExtra("Student_name", stdName);
                 //  학생 이름 보내기 추가
                 startActivity(intent);
+                finish();
                 return;
             }
 

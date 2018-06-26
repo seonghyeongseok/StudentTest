@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,7 +23,7 @@ import java.net.URISyntaxException;
  * Created by skadl on 2018-04-13.
  */
 
-public class FinalResult extends AppCompatActivity{
+public class FinalResult extends AppCompatActivity implements View.OnClickListener{
 
     public static final String ServerIP = "http://ec2-52-79-176-51.ap-northeast-2.compute.amazonaws.com:8890";
 
@@ -29,8 +31,10 @@ public class FinalResult extends AppCompatActivity{
 
     private ImageView   imageView;
     private TextView    nickName, point, resultView;
-    private String      sessionNum, nick, character, result;
+    private String      sessionNum, nick, character, result, stdName;
     private String      finalResult = null;
+
+    private Button      main;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,15 +45,19 @@ public class FinalResult extends AppCompatActivity{
 
         imageView   = (ImageView)findViewById(R.id.character);
 
-        nickName       = (TextView) findViewById(R.id.nick);
+        nickName    = (TextView) findViewById(R.id.nick);
         point       = (TextView) findViewById(R.id.point);
-        resultView       = (TextView) findViewById(R.id.result);
+        resultView  = (TextView) findViewById(R.id.result);
+
+        main = (Button)findViewById(R.id.next);
+        main.setOnClickListener(this);
 
         Intent getInfo = getIntent();
 
         character   = getInfo.getStringExtra("char");
         nick        = getInfo.getStringExtra("Nick_name");
         sessionNum  = getInfo.getStringExtra("session_num");
+        stdName     = getInfo.getStringExtra("student_name");
         finalResult      = getInfo.getStringExtra("result");
 
         Log.e("result", finalResult);
@@ -71,7 +79,7 @@ public class FinalResult extends AppCompatActivity{
                 nickName.setText(nick);
                 point.setText(score);
 
-                if(pass){
+                if(!pass){
                     resultView.setText("합격");
                 }else
                     resultView.setText("불 합격");
@@ -82,6 +90,20 @@ public class FinalResult extends AppCompatActivity{
         }
 
 
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        if(view.getId() == R.id.next){
+            Intent intent = new Intent(FinalResult.this, Main.class);
+            intent.putExtra("session_num", sessionNum);
+            intent.putExtra("Student_name", stdName);
+            //  학생 이름 보내기 추가
+            startActivity(intent);
+            finish();
+        }
 
     }
 }

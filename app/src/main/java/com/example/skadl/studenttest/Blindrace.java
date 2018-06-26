@@ -48,7 +48,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
     private RelativeLayout  answerView;
 
     private String answerNum = null;
-    private String sessionNum, nick, roomNum, point, character, quizId, type, resultInfo, answerCheck;
+    private String sessionNum, nick, roomNum, point, character, quizId, type, resultInfo, answerCheck, stdName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +113,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
 
         character   = getInfo.getStringExtra("char");
         sessionNum  = getInfo.getStringExtra("session_num");
+        stdName     = getInfo.getStringExtra("student_name");
         nick        = getInfo.getStringExtra("Nick_name");
         roomNum     = getInfo.getStringExtra("room_num");
 
@@ -346,9 +347,10 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
                     intent.putExtra("session_num", sessionNum);
                     intent.putExtra("Nick_name", nick);
                     intent.putExtra("char", character);
+                    intent.putExtra("student_name", stdName);
                     intent.putExtra("result", finalResult);
                     startActivity(intent);
-
+                    finish();
                 }
             });
         }
