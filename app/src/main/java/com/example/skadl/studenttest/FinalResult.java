@@ -69,20 +69,22 @@ public class FinalResult extends AppCompatActivity implements View.OnClickListen
             for(int i = 0 ; i < result.length() ; i++){
                 JSONObject studentResult = result.getJSONObject(i);
 
-                String character = studentResult.optString("characterId");
-                String score = studentResult.optString("score");
-                Boolean pass = studentResult.optBoolean("retestState");
+                if(studentResult.optString(("session_id")).equals(sessionNum)) {
+                    String character = studentResult.optString("characterId");
+                    String score = studentResult.optString("score");
+                    Boolean pass = studentResult.optBoolean("retestState");
 
-                imageView.setImageResource(getResources().getIdentifier(
-                        "char"+character, "drawable", this.getPackageName()));
+                    imageView.setImageResource(getResources().getIdentifier(
+                            "char" + character, "drawable", this.getPackageName()));
 
-                nickName.setText(nick);
-                point.setText(score);
+                    nickName.setText(nick);
+                    point.setText(score);
 
-                if(!pass){
-                    resultView.setText("합격");
-                }else
-                    resultView.setText("불 합격");
+                    if (!pass) {
+                        resultView.setText("합격");
+                    } else
+                        resultView.setText("불 합격");
+                }
             }
 
         }catch (Exception e){
