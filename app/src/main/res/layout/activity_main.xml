@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context="com.example.skadl.studenttest.Login">
 
+    <ImageView
+        android:id="@+id/background_blue"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/background_blue" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,8 +46,6 @@
             android:layout_marginTop="32dp"
             android:layout_marginHorizontal="32dp"
             />
-
-
 
         <EditText
             android:id="@+id/password"

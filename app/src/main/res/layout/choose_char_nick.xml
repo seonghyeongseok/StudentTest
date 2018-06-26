@@ -2,11 +2,12 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background_blue">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -21,80 +22,82 @@
         <LinearLayout
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="3"
-            android:orientation="vertical">
+            android:layout_height="320dp"
+            android:background="@drawable/custom_border"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:weightSum="3">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:weightSum="3"
                 android:layout_margin="1dp"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
                 <ImageButton
                     android:id="@+id/char1"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="120dp"
+                    android:layout_height="100dp"
                     android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/choice_button"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/char1" />
 
                 <ImageButton
                     android:id="@+id/char2"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="120dp"
+                    android:layout_height="100dp"
                     android:layout_margin="1dp"
+                    android:layout_weight="1"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/char2" />
 
                 <ImageButton
                     android:id="@+id/char3"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="120dp"
+                    android:layout_height="100dp"
                     android:layout_margin="1dp"
+                    android:layout_weight="1"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/char3" />
-
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:weightSum="3"
                 android:layout_margin="1dp"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
                 <ImageButton
                     android:id="@+id/char4"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="120dp"
+                    android:layout_height="100dp"
                     android:layout_margin="1dp"
+                    android:layout_weight="1"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/char4" />
 
                 <ImageButton
                     android:id="@+id/char5"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="120dp"
+                    android:layout_height="100dp"
                     android:layout_margin="1dp"
+                    android:layout_weight="1"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/char5" />
 
                 <ImageButton
                     android:id="@+id/char6"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="120dp"
+                    android:layout_height="100dp"
                     android:layout_margin="1dp"
+                    android:layout_weight="1"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/char6" />
 
@@ -103,58 +106,69 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:weightSum="3"
                 android:layout_margin="1dp"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="3">
 
 
                 <ImageButton
                     android:id="@+id/char7"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="120dp"
+                    android:layout_height="100dp"
                     android:layout_margin="1dp"
+                    android:layout_weight="1"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/char7" />
 
                 <ImageButton
                     android:id="@+id/char8"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="120dp"
+                    android:layout_height="100dp"
                     android:layout_margin="1dp"
+                    android:layout_weight="1"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/char8" />
 
                 <ImageButton
                     android:id="@+id/char9"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="120dp"
+                    android:layout_height="100dp"
                     android:layout_margin="1dp"
+                    android:layout_weight="1"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/char9" />
             </LinearLayout>
 
         </LinearLayout>
 
-
-        <EditText
-            android:id="@+id/nickname"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageView"
-            android:layout_marginTop="32dp" />
-
-        <Button
-            android:id="@+id/find"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/nickname"
+            android:background="@drawable/corner"
+            android:padding="16dp"
             android:layout_marginTop="16dp"
-            android:text="입장"
-            android:textSize="20sp" />
+            android:layout_below="@+id/imageView">
+
+            <EditText
+                android:id="@+id/nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="32dp" />
+
+            <Button
+                android:id="@+id/find"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nickname"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/choice_button"
+                android:text="입장"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

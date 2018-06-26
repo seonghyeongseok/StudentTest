@@ -22,6 +22,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONString;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -79,13 +80,19 @@ public class GradeRecord extends AppCompatActivity implements View.OnClickListen
 
         try {
 
-            JSONObject value = new JSONObject(returnValue);
+            JSONObject returnInfo = new JSONObject(returnValue);
 
-            Boolean check = value.optBoolean("check");
-            JSONArray list = value.optJSONArray("races");
+            Boolean check = returnInfo.optBoolean("check");
+            JSONArray listString = returnInfo.getJSONArray("races");
 
-            for(int i = 0 ; i < list.length() ; i++){
-                JSONObject gradeInfo = list.getJSONObject(i);
+
+            Log.e("list", listString.toString());
+
+
+            for(int i = 0 ; i < listString.length() ; i++){
+                String jsonString = listString.getString(i);
+
+                JSONObject gradeInfo = new JSONObject(jsonString);
 
                 GradeItem grade = new GradeItem();
 

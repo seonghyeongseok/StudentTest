@@ -17,7 +17,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Main"/>
-        <activity android:name=".Join"/>
         <activity android:name=".ChooseCandN"/>
         <activity android:name=".Blindrace"/>
         <activity android:name=".GroupMain"/>

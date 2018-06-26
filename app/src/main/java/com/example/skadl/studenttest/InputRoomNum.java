@@ -31,7 +31,6 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
     private Socket      mSocket;
     private String      character_info = null;
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.find_room);
@@ -99,6 +98,7 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
                             case "race":
 
                                 intent = new Intent(InputRoomNum.this, ChooseCandN.class);
+                                intent.putExtra("character_Info", character_info);
                                 break;
 
                             case "popQuiz":
@@ -113,16 +113,16 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
                         }
 
                         intent.putExtra("session_num", sessionNum);
+                        Log.e("입력 내 세션", sessionNum);
                         intent.putExtra("student_name", stdName);
                         intent.putExtra("room_num", roomNum);
-                        intent.putExtra("character_Info", character_info);
 
                         startActivity(intent);
-
+                        finish();
                     }
                     else if(checkSessionNum.equals(sessionNum)){
 
-                        Toast.makeText(getApplicationContext(), "제대로입력해주십셔~", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "제대로입력해주십셔~", Toast.LENGTH_SHORT).show();
                         Log.d("4", String.valueOf(check));
                         Log.d("5", checkSessionNum);
                         Log.d("6", sessionNum);

@@ -1,111 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10">
+
+    <RelativeLayout
+        android:id="@+id/name_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:background="@drawable/name_view">
+
+        <TextView
+            android:id="@+id/quiz_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="퀴즈명"
+            android:textColor="#ffffff"
+            android:textSize="30sp" />
+
+
+    </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/quiz"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
-        android:weightSum="5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:background="@drawable/status_view">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.5"
-            android:weightSum="9"
-            android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/status"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:textColor="#ffffff"
                 android:text="현황" />
 
-            <TextView
-                android:id="@+id/quiz_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:gravity="center"
-                android:textSize="30sp"
-                android:text="퀴즈명" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/timer"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:textColor="#ffffff"
                 android:text="시간" />
-        </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/essay_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6.5"
+        android:padding="8dp"
+        android:orientation="vertical"
+        android:weightSum="6.5">
 
         <LinearLayout
-            android:id="@+id/essay_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3.5"
-            android:weightSum="5"
-            android:orientation="vertical">
+            android:layout_weight="3"
+            android:padding="8dp"
+            android:background="@drawable/quiz_back">
 
             <TextView
                 android:id="@+id/essay_passage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="지문" />
+                android:text="지문"
+                android:textSize="20sp" />
+        </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:orientation="vertical">
-
-            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3.5"
+            android:padding="8dp"
+            android:background="@drawable/quiz_back">
 
             <EditText
                 android:id="@+id/essay_answer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="text"
-                android:hint="答え" />
-
+                android:hint="答え"
+                android:inputType="text" />
 
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/choice_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6.5"
+        android:padding="8dp"
+        android:orientation="vertical">
+
         <LinearLayout
-            android:id="@+id/choice_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="3.5"
-            android:orientation="vertical">
+            android:layout_weight="3"
+            android:padding="8dp"
+            android:background="@drawable/quiz_back">
 
             <TextView
                 android:id="@+id/choice_passage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:textSize="20sp"
-                android:text="지문" />
+                android:text="지문"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3.5"
+            android:padding="8dp"
+            android:background="@drawable/quiz_back">
 
             <RadioGroup
                 android:id="@+id/choice_answer"
-                android:layout_margin="5dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
 
                 <RadioButton
                     android:id="@+id/answer1"
@@ -136,22 +179,29 @@
 
         </LinearLayout>
 
-        <Button
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ImageButton
             android:id="@+id/send"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/button_normal"
-            android:text="다음" />
-
-
-    </LinearLayout>
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/button_ok" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="9"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="9">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -202,4 +252,4 @@
 
         </LinearLayout>
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
