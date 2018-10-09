@@ -144,7 +144,7 @@ public class InputRoomNum extends AppCompatActivity implements View.OnClickListe
             if (roomNum == null)
             {
 
-                Toast.makeText(getApplicationContext(), "핀번입력해주십셔~", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "PIN番号を入力してください~", Toast.LENGTH_SHORT).show();
 
                 return;
 

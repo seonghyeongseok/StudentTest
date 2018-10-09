@@ -33,7 +33,7 @@
             android:layout_below="@id/pin_num"
             android:layout_margin="32dp"
             android:background="@drawable/button"
-            android:text="입장"
+            android:text="入場"
             android:textColor="#FFFFFF" />
 
     </RelativeLayout>

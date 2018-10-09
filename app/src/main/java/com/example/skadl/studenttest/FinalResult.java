@@ -69,7 +69,12 @@ public class FinalResult extends AppCompatActivity implements View.OnClickListen
             for(int i = 0 ; i < result.length() ; i++){
                 JSONObject studentResult = result.getJSONObject(i);
 
-                if(studentResult.optString(("session_id")).equals(sessionNum)) {
+
+                Log.e("내 세션아이디", sessionNum);
+                Log.e("받은 세션아이디", studentResult.optString(("sessionId")));
+
+
+                if(studentResult.optString(("sessionId")).equals(sessionNum)) {
                     String character = studentResult.optString("characterId");
                     String score = studentResult.optString("score");
                     Boolean pass = studentResult.optBoolean("retestState");
@@ -81,9 +86,9 @@ public class FinalResult extends AppCompatActivity implements View.OnClickListen
                     point.setText(score);
 
                     if (!pass) {
-                        resultView.setText("합격");
+                        resultView.setText("合格！");
                     } else
-                        resultView.setText("불 합격");
+                        resultView.setText("不合格。。");
                 }
             }
 

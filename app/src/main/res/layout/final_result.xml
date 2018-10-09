@@ -32,7 +32,7 @@
             android:layout_height="70dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:srcCompat="@drawable/char1" />
 
     </RelativeLayout>
 
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/score_image"
             android:layout_centerHorizontal="true"
-            android:text="점수"
+            android:text="点数"
             android:textSize="20sp"/>
 
         <ImageView
@@ -104,7 +104,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:textColor="#ffffff"
-            android:text="          확인          "
+            android:text="          確認          "
             android:textSize="20sp"/>
 
     </RelativeLayout>

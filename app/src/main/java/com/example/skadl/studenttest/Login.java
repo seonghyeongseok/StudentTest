@@ -190,7 +190,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         if (checkLogin) {
 
             if (!check) {
-                Toast.makeText(getBaseContext(), "이미 로그인 되어있습니당", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "もう、Log-inできていますよ。", Toast.LENGTH_SHORT).show();
                 return;
             }
 

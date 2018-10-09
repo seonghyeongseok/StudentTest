@@ -120,7 +120,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener{
 
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-        alert.setMessage("종료하시겠습니까?");
+        alert.setMessage("終了しますか。?");
 
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override

@@ -164,7 +164,7 @@
                 android:layout_below="@+id/nickname"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/choice_button"
-                android:text="입장"
+                android:text="入場"
                 android:textSize="20sp" />
         </RelativeLayout>
 

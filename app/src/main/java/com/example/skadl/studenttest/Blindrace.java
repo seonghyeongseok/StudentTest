@@ -287,7 +287,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
                         answerView.setBackgroundColor(Color.parseColor("#ff3333"));
                     }
 
-                    stdResult2.setText(Integer.parseInt(point) * 100 + "점");
+                    stdResult2.setText(Integer.parseInt(point) * 100 + "Point");
                     userImage.setImageResource(getResources().getIdentifier(
                             "char"+character, "drawable", "com.example.skadl.studenttest"));
                 }
@@ -400,7 +400,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
             answerNum = essay.getText().toString();
 
             if(answerNum.equals("")){
-                Toast.makeText(getApplicationContext(), "답을 입력 해 주세요 !", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "正解を入力してください !", Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -418,7 +418,7 @@ public class Blindrace extends AppCompatActivity implements View.OnClickListener
 
             if(answerNum == null){
 
-                Toast.makeText(getApplicationContext(), "답을 골라 주세요 !", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "正解を入力してください!", Toast.LENGTH_LONG).show();
                 return;
             }
 

@@ -119,7 +119,7 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
                         //닉네임이나 캐릭터에 중복된 정보가 입력되었을 때
                         if (sessionNum.equals(arg0[2].toString()))
 
-                            Toast.makeText(getApplicationContext(), "중복된 캐릭터 혹은 닉네임입니다.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "もう、使っているキャラクターです。", Toast.LENGTH_LONG).show();
 
                     } else {
                         // 닉네임과 캐릭터가 정상적으로 선택되었을 떄
@@ -178,7 +178,7 @@ public class ChooseCandN extends AppCompatActivity implements View.OnClickListen
 
                 if (character == null) {
 
-                    Toast.makeText(getApplicationContext(), "캐릭터 쵸이스 쿠다사이", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "キャラクターを選択してください。", Toast.LENGTH_SHORT).show();
                     return;
 
                 }
